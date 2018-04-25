@@ -7,6 +7,15 @@ class TabManager extends React.Component {
 
   tabs = []
 
+  getActive = () => {
+    let { active } = this.props
+    if (active === undefined) {
+      let { active } = this.state
+    }
+
+    return active
+  }
+
   registerTab = (index) => {
     this.tabs.push(index)
   }
@@ -28,14 +37,14 @@ class TabManager extends React.Component {
   }
 
   isActive = (index) => {
-    return index === this.state.active
+    return index === this.getActive()
   }
 
   render() {
     return (
       <div>
         {this.props.render({
-          active: this.state.active,
+          active: this.getActive(),
           getTabProps: this.getTabProps
         })}
       </div>

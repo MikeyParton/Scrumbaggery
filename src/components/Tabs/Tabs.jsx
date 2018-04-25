@@ -1,32 +1,92 @@
 import React from 'react'
 import TabManager from '../TabManager/TabManager'
-import { TabList, Tab, TabContent, TabActiveBar } from './tabsStyled'
+import { TabListOuter, TabList, Tab, TabContent, TabActiveBar } from './tabsStyled'
+import { Motion, TransitionMotion, spring }  from 'react-motion'
 
-const Tabs = (props) => {
-  const { active, tabs } = props
+class Tabs extends React.Component {
+  state = {
+    active: 0
+  }
 
-  return (
-    <TabManager
-      render={({ getTabProps, active }) => {
-        const activeTab = tabs[active]
-        const Content = activeTab && activeTab.content
+  onChange = (active) => {
+    this.setState({ active })
+  }
 
-        return (
-          <div>
-            <TabList>
-              {tabs.map(({ label }, index) => (
-                <Tab {...getTabProps({ index, key: index })}>
-                  {label}
-                </Tab>
-              ))}
-              <TabActiveBar active={active}/>
-            </TabList>
-            {Content && <Content />}
-          </div>
-        )
-      }}
-    />
-  )
+  getDefaultStyles = () => {
+    return [{
+      style: { position: 'absolute' }
+    }]
+  }
+
+  getStyles = () => {
+    const { tabs } = this.props
+    const { active } = this.state
+    const activeTab = tabs[active]
+    const Content = activeTab && activeTab.content
+
+    return [{
+      key: `tab-${active}`,
+      style: { opacity: spring(1) },
+      data: {
+        Content
+      }
+    }]
+  }
+
+  willEnter() {
+    return { opacity: 0 }
+  }
+
+  willLeave() {
+    return { opacity: spring(0) }
+  }
+
+  render() {
+    const { tabs } = this.props
+
+    return (
+      <TabManager
+        active={this.state.active}
+        onChange={this.onChange}
+        render={({ getTabProps, active }) => {
+
+          return (
+            <div>
+              <TabListOuter>
+                <TabList>
+                  {tabs.map(({ label }, index) => (
+                    <Tab {...getTabProps({ index, key: index })}>
+                      {label}
+                    </Tab>
+                  ))}
+                  <Motion style={{ left: spring(active * 90) }}>
+                    {style => <TabActiveBar style={style}/> }
+                  </Motion>
+                </TabList>
+              </TabListOuter>
+                <TransitionMotion
+                  willEnter={this.willEnter}
+                  willLeave={this.willLeave}
+                  styles={this.getStyles()}
+                  >
+                  {elements => {
+                    return (
+                      <div>
+                        {elements.map(({ key, style, data: { Content } }) => (
+                          <TabContent key={key} style={style}>
+                            <Content />
+                          </TabContent>
+                        ))}
+                      </div>
+                    )
+                  }}
+                </TransitionMotion>
+            </div>
+          )
+        }}
+      />
+    )
+  }
 }
 
 export default Tabs

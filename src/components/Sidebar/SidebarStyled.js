@@ -1,17 +1,18 @@
 import styled from 'styled-components'
-
-const ultraMarineBlue = '#2F68ED'
-const snow = '#F9F9F9'
+import mediaQueries from '../../styles/mediaQueries'
 
 export const OuterContainer = styled.div`
   width: 200px;
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 0;
   z-index: 2;
-  background-color: ${snow};
-  ${({ open }) => open && 'box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 4px;'}
+  background-color: ${props => props.theme.colors.secondary};
+  box-shadow: rgba(0, 0, 0, 0.15) 2px 0px 20px;
+
+  ${mediaQueries.phone`
+    width: 100%;
+  `}
 `
 
 export const Header = styled.div`
@@ -20,7 +21,6 @@ export const Header = styled.div`
   padding: 10px;
   align-items: center;
   justify-content: space-between;
-  background-color: ${ultraMarineBlue};
 `
 
 export const InnerContainer = styled.div`
@@ -31,7 +31,12 @@ export const Trigger = styled.div`
   width: 30px;
   height: 30px;
   border-radius: 25px;
-  background-color: black;
+  background-color: ${(props) => props.theme.colors.primary};
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 `
 
 export const ExternalTrigger = styled(Trigger)`
