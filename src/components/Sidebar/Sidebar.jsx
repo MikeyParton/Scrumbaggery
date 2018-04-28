@@ -4,11 +4,13 @@ import { Header, OuterContainer, Trigger, ExternalTrigger } from './SidebarStyle
 import MenuIcon from 'react-icons/lib/md/menu'
 import CloseIcon from 'react-icons/lib/md/close'
 
+const OPEN_MIN = 0                  // 0% width when closed
+const OPEN_MAX = 100                // 100% Width when open
+const INTERNAL_BUTTON_OFFSET = 60   // Distance between the end of sidebar and external button
+const EXTRA_OFFSET = 10             // 10px A little extra to hide the shadow when the sidebar is closed
+
 class Sidebar extends React.Component {
-  state = {
-    open: false,
-    showShadow: false
-  }
+  state = { open: false }
 
   currentOffset = () => {
     if (!this.sidebar) return 0
@@ -16,27 +18,23 @@ class Sidebar extends React.Component {
     return width + x
   }
 
-  toggle = (key) => {
-    this.setState({ [key]: !this.state[key] })
+  toggle = () => {
+    this.setState({ open: !this.state.open })
   }
 
   render() {
-    const { open , showShadow} = this.state
+    const { open } = this.state
 
     return (
-      <Motion style={{
-        x: spring(this.state.open ? 0 : 100),
-        shadowX: spring(this.state.showShadow ? 0 : 1)
-      }}
-      >
-        {({x, shadowX}) => {
+      <Motion style={{ x: spring(this.state.open ? OPEN_MIN : OPEN_MAX) }}>
+        {({x}) => {
           const currentOffset = this.currentOffset()
-          const showInternalButton = currentOffset < 60
+          const showInternalButton = currentOffset < INTERNAL_BUTTON_OFFSET - EXTRA_OFFSET
 
           return (
             <div>
               {showInternalButton && (
-                <ExternalTrigger onClick={() => this.toggle('open')}>
+                <ExternalTrigger onClick={() => this.toggle()}>
                   <MenuIcon />
                 </ExternalTrigger>
               )}
@@ -44,7 +42,7 @@ class Sidebar extends React.Component {
                 innerRef={(ref) => { this.sidebar = ref }}
                 open={open}
                 style={{
-                  left: `-${0.1 * x}px`,
+                  left: `-${(x / OPEN_MAX) * EXTRA_OFFSET}px`,
                   WebkitTransform: `translateX(-${x}%`,
                   transform: `translateX(-${x}%)`,
                 }}
@@ -52,7 +50,7 @@ class Sidebar extends React.Component {
                 <Header>
                   <div>Sidebar</div>
                   {!showInternalButton && (
-                    <Trigger onClick={() => this.toggle('open')}>
+                    <Trigger onClick={() => this.toggle()}>
                       <CloseIcon />
                     </Trigger>
                   )}

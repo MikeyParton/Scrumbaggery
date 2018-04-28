@@ -5,8 +5,11 @@ import { select } from '@storybook/addon-knobs'
 
 import scrumbagTheme from '../styles/scrumbagTheme'
 import globalStyles from '../styles/globalStyles'
-import Tabs from '../components/Tabs/Tabs.story'
+
+import CircleButton from '../components/CircleButton/CircleButton.story'
+import List from '../components/List/List.story'
 import Sidebar from '../components/Sidebar/Sidebar.story'
+import Tabs from '../components/Tabs/Tabs.story'
 
 const themeProviderDecorator = story => {
   const themes = {scrumbag: scrumbagTheme }
@@ -21,5 +24,7 @@ addDecorator(themeProviderDecorator)
 
 globalStyles()
 
+CircleButton()
 Sidebar()
 Tabs()
+List()
