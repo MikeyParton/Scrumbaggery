@@ -6,6 +6,8 @@ import { select } from '@storybook/addon-knobs'
 import scrumbagTheme from '../styles/scrumbagTheme'
 import globalStyles from '../styles/globalStyles'
 
+import Styles from '../styles/styles.story'
+
 import CircleButton from '../components/CircleButton/CircleButton.story'
 import List from '../components/List/List.story'
 import Sidebar from '../components/Sidebar/Sidebar.story'
@@ -24,6 +26,7 @@ addDecorator(themeProviderDecorator)
 
 globalStyles()
 
+Styles()
 CircleButton()
 Sidebar()
 Tabs()
