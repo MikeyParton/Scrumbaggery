@@ -1,6 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import SimpleListContainer from './SimpleListContainer'
+import MultipleListsContainer from './MultipleListsContainer'
 import styled from 'styled-components'
 
 const FullScreen = styled.div`
@@ -14,9 +15,14 @@ const FullScreen = styled.div`
 
 const ListStory = () => {
   storiesOf('List', module)
-    .add('Basic', () => {
+    .add('Single List', () => {
       return <FullScreen>
         <SimpleListContainer />
+      </FullScreen>
+    })
+    .add('Multiple Lists', () => {
+      return <FullScreen>
+        <MultipleListsContainer />
       </FullScreen>
     })
 }

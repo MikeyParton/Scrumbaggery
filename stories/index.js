@@ -3,15 +3,15 @@ import { addDecorator, storiesOf } from '@storybook/react'
 import { ThemeProvider } from 'styled-components'
 import { select } from '@storybook/addon-knobs'
 
-import scrumbagTheme from '../styles/scrumbagTheme'
-import globalStyles from '../styles/globalStyles'
+import scrumbagTheme from '../src/styles/scrumbagTheme'
+import globalStyles from '../src/styles/globalStyles'
 
-import Styles from '../styles/styles.story'
+import Styles from '../src/styles/styles.story'
 
-import CircleButton from '../components/CircleButton/CircleButton.story'
-import List from '../components/List/List.story'
-import Sidebar from '../components/Sidebar/Sidebar.story'
-import Tabs from '../components/Tabs/Tabs.story'
+import Button from '../src/components/Button/Button.story'
+import List from '../src/components/List/List.story'
+import Sidebar from '../src/components/Sidebar/Sidebar.story'
+import Tabs from '../src/components/Tabs/Tabs.story'
 
 const themeProviderDecorator = story => {
   const themes = {scrumbag: scrumbagTheme }
@@ -27,7 +27,7 @@ addDecorator(themeProviderDecorator)
 globalStyles()
 
 Styles()
-CircleButton()
+Button()
 Sidebar()
 Tabs()
 List()

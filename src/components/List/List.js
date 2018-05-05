@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import Button from '../Button/Button'
 import {
   ListOuterContainer,
   ListInnerContainer,
   ListDropZone,
   Header,
   Footer,
-  CardOuterContainer
 } from './ListStyled'
+import Card from './Card'
+import ElipsisIcon from 'react-icons/lib/fa/ellipsis-h'
+import AddIcon from 'react-icons/lib/fa/plus'
 
 class List extends React.Component {
   render() {
@@ -15,7 +18,10 @@ class List extends React.Component {
     return (
       <ListOuterContainer>
         <Header>
-          Header Here
+          Fancy Card
+          <Button dark circle fill="secondary">
+            <ElipsisIcon />
+          </Button>
         </Header>
         <ListDropZone>
           <Droppable droppableId="droppable">
@@ -27,15 +33,11 @@ class List extends React.Component {
                 {items.map((item, index) => (
                   <Draggable key={item.id} draggableId={item.id} index={index}>
                     {(provided, snapshot) => (
-                      <CardOuterContainer
-                        innerRef={provided.innerRef}
-                        isDragging={snapshot.isDragging}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={provided.draggableProps.style}
-                      >
-                        {item.content}
-                      </CardOuterContainer>
+                      <Card
+                        item={item}
+                        provided={provided}
+                        snapshot={snapshot}
+                      />
                     )}
                   </Draggable>
                 ))}
@@ -45,7 +47,9 @@ class List extends React.Component {
           </Droppable>
         </ListDropZone>
         <Footer>
-          Footer Here
+          <Button dark block fill="primary">
+            Add Card &nbsp;<AddIcon />
+          </Button>
         </Footer>
       </ListOuterContainer>
     )

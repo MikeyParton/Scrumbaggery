@@ -7,7 +7,7 @@ export const OuterContainer = styled.div`
   top: 0;
   bottom: 0;
   z-index: 2;
-  background-color: ${props => props.theme.colors.secondary};
+  background-color: ${props => props.theme.colors['greyLightest']};
   box-shadow: rgba(0, 0, 0, 0.15) 2px 0px 20px;
 
   ${mediaQueries.phone`
