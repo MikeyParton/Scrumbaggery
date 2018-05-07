@@ -1,13 +1,20 @@
 import React from 'react'
 import { Motion, spring } from 'react-motion'
-import { Header, OuterContainer, Trigger, ExternalTrigger } from './SidebarStyled'
+import { Header, InnerContainer, OuterContainer, Trigger, ExternalTrigger } from './SidebarStyled'
 import MenuIcon from 'react-icons/lib/md/menu'
 import CloseIcon from 'react-icons/lib/md/close'
+import Tabs from 'components/Tabs/Tabs'
+import { withRouter } from 'react-router'
 
 const OPEN_MIN = 0                  // 0% width when closed
 const OPEN_MAX = 100                // 100% Width when open
 const INTERNAL_BUTTON_OFFSET = 60   // Distance between the end of sidebar and external button
 const EXTRA_OFFSET = 10             // 10px A little extra to hide the shadow when the sidebar is closed
+
+const tabs = [
+  { label: 'Home', route: '/' },
+  { label: 'Boards', route: '/b' }
+]
 
 class Sidebar extends React.Component {
   state = { open: false }
@@ -22,7 +29,12 @@ class Sidebar extends React.Component {
     this.setState({ open: !this.state.open })
   }
 
+  handleTabClick = (active) => {
+    this.props.history.push(tabs[active].route)
+  }
+
   render() {
+    const { title, children } = this.props
     const { open } = this.state
 
     return (
@@ -48,13 +60,14 @@ class Sidebar extends React.Component {
                 }}
                 >
                 <Header>
-                  <div>Sidebar</div>
+                  <div>{title}</div>
                   {!showInternalButton && (
                     <Trigger onClick={() => this.toggle()}>
                       <CloseIcon />
                     </Trigger>
                   )}
                 </Header>
+                <Tabs tabs={tabs} vertical onChange={this.handleTabClick}/>
               </OuterContainer>
             </div>
           )
@@ -64,4 +77,8 @@ class Sidebar extends React.Component {
   }
 }
 
-export default Sidebar
+Sidebar.defaultProps = {
+  title: 'Sidebar'
+}
+
+export default withRouter(Sidebar)

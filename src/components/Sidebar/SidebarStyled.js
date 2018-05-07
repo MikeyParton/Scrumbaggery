@@ -24,7 +24,7 @@ export const Header = styled.div`
 `
 
 export const InnerContainer = styled.div`
-
+  padding: 10px;
 `
 
 export const Trigger = styled.div`

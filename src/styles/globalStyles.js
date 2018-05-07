@@ -6,6 +6,7 @@ export default () => injectGlobal`
   }
 
   body {
+    margin: 0;
     font-family: lato;
   }
 

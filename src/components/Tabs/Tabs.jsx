@@ -1,7 +1,7 @@
 import React from 'react'
 import TabManager from '../TabManager/TabManager'
 import { TabListOuter, TabList, Tab, TabContent, TabActiveBar } from './tabsStyled'
-import { Motion, TransitionMotion, spring }  from 'react-motion'
+import { Transition, Spring } from 'react-spring'
 
 class Tabs extends React.Component {
   state = {
@@ -10,83 +10,54 @@ class Tabs extends React.Component {
 
   onChange = (active) => {
     this.setState({ active })
-  }
-
-  getDefaultStyles = () => {
-    return [{
-      style: { position: 'absolute' }
-    }]
-  }
-
-  getStyles = () => {
-    const { tabs } = this.props
-    const { active } = this.state
-    const activeTab = tabs[active]
-    const Content = activeTab && activeTab.content
-
-    return [{
-      key: `tab-${active}`,
-      style: { opacity: spring(1) },
-      data: {
-        Content
-      }
-    }]
-  }
-
-  willEnter() {
-    return { opacity: 0 }
-  }
-
-  willLeave() {
-    return { opacity: spring(0) }
+    this.props.onChange(active)
   }
 
   render() {
-    const { tabs } = this.props
+    const { active } = this.state
+    const { tabs, vertical } = this.props
+    const Content = tabs[active].content
 
     return (
       <TabManager
-        active={this.state.active}
+        active={active}
         onChange={this.onChange}
         render={({ getTabProps, active }) => {
-
           return (
             <div>
               <TabListOuter>
-                <TabList>
+                <TabList vertical={vertical}>
                   {tabs.map(({ label }, index) => (
-                    <Tab {...getTabProps({ index, key: index })}>
+                    <Tab {...getTabProps({
+                      index,
+                      vertical,
+                      key: index
+                    })}>
                       {label}
                     </Tab>
                   ))}
-                  <Motion style={{ left: spring(active * 90) }}>
-                    {style => <TabActiveBar style={style}/> }
-                  </Motion>
+                  <Spring to={ vertical ? { top: active * 39 } : { left: active * 90 }}>
+                    {style => {
+                      return <TabActiveBar vertical={vertical} style={style} />
+                    }}
+                  </Spring>
                 </TabList>
               </TabListOuter>
-                <TransitionMotion
-                  willEnter={this.willEnter}
-                  willLeave={this.willLeave}
-                  styles={this.getStyles()}
-                  >
-                  {elements => {
-                    return (
-                      <div>
-                        {elements.map(({ key, style, data: { Content } }) => (
-                          <TabContent key={key} style={style}>
-                            <Content />
-                          </TabContent>
-                        ))}
-                      </div>
-                    )
-                  }}
-                </TransitionMotion>
+              {Content && (
+                <Transition from={{ opacity: 0 }} enter={{ opacity: 1 }} leave={{ opacity: 0 }}>
+                  <Content />
+                </Transition>
+              )}
             </div>
           )
         }}
       />
     )
   }
+}
+
+Tabs.defaultProps = {
+  onChange: () => {}
 }
 
 export default Tabs
