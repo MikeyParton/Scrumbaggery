@@ -6,7 +6,7 @@ export const TabListOuter = styled.div`
   margin-bottom: 8px;
 `
 
-export const TabList = styled.div`
+export const TabListContainer = styled.div`
   display: flex;
   position: relative;
   ${props => props.vertical && css`
@@ -15,7 +15,7 @@ export const TabList = styled.div`
   `}
 `
 
-export const Tab = styled.div`
+export const TabContainer = styled.div`
   ${props => !props.vertical && css`
     text-align: center;
     border-top-right-radius: 8px;
@@ -37,18 +37,4 @@ export const TabActiveBar = styled.div`
   position: absolute;
   border-radius: 4px;
   background-color: ${props => props.theme.colors.primary};
-
-  ${props => !props.vertical && css`
-    height: 4px;
-    bottom: 0;
-    width: 90px;
-    left: ${props.offset * 90}px;
-  `}
-
-  ${props => props.vertical && css`
-    top: ${props.offset * 39}px;
-    height: 39px;
-    width: 4px;
-    right: 0;
-  `}
 `

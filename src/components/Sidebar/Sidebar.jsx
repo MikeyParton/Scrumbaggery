@@ -10,6 +10,7 @@ const OPEN_MIN = 0                  // 0% width when closed
 const OPEN_MAX = 100                // 100% Width when open
 const INTERNAL_BUTTON_OFFSET = 60   // Distance between the end of sidebar and external button
 const EXTRA_OFFSET = 10             // 10px A little extra to hide the shadow when the sidebar is closed
+const WIDTH = 200
 
 const tabs = [
   { label: 'Home', route: '/' },
@@ -27,10 +28,6 @@ class Sidebar extends React.Component {
 
   toggle = () => {
     this.setState({ open: !this.state.open })
-  }
-
-  handleTabClick = (active) => {
-    this.props.history.push(tabs[active].route)
   }
 
   render() {
@@ -54,9 +51,7 @@ class Sidebar extends React.Component {
                 innerRef={(ref) => { this.sidebar = ref }}
                 open={open}
                 style={{
-                  left: `-${(x / OPEN_MAX) * EXTRA_OFFSET}px`,
-                  WebkitTransform: `translateX(-${x}%`,
-                  transform: `translateX(-${x}%)`,
+                  left: `-${(x / OPEN_MAX) * (WIDTH + EXTRA_OFFSET)}px`
                 }}
                 >
                 <Header>
@@ -67,7 +62,13 @@ class Sidebar extends React.Component {
                     </Trigger>
                   )}
                 </Header>
-                <Tabs tabs={tabs} vertical onChange={this.handleTabClick}/>
+                <Tabs vertical initialActiveIndex="0">
+                  <Tabs.TabList>
+                    <Tabs.Tab index="0">Hello</Tabs.Tab>
+                    <Tabs.Tab index="1">Yay</Tabs.Tab>
+                    <Tabs.ActiveBar />
+                  </Tabs.TabList>
+                </Tabs>
               </OuterContainer>
             </div>
           )
@@ -81,4 +82,4 @@ Sidebar.defaultProps = {
   title: 'Sidebar'
 }
 
-export default withRouter(Sidebar)
+export default Sidebar

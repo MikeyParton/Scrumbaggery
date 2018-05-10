@@ -1,19 +1,82 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import Tabs from './Tabs'
+import styled from 'styled-components'
 
 const TabsStory = () => (
   storiesOf('Tabs', module)
     .add('Horizontal', () => {
+      const tabs = ['Tab 1', 'Tab 2', 'Tab 3']
+      return (
+        <Tabs initialActiveIndex={0}>
+          <Tabs.TabList>
+            {tabs.map((label, index) => (
+              <Tabs.Tab index={index} key={index}>{label}</Tabs.Tab>
+            ))}
+            <Tabs.ActiveBar />
+          </Tabs.TabList>
+        </Tabs>
+      )
+    })
+    .add('Controlled', () => {
+      const tabs = ['Tab 1', 'Tab 2', 'Tab 3']
 
-      const tabs = [
-        { label: 'Tab 1', content: () => <div>Content 1</div> },
-        { label: 'Tab 2', content: () => <div>Content 2</div> },
-        { label: 'Tab 3', content: () => <div>Content 3</div> },
-        { label: 'Tab 4', content: () => <div>Content 4</div> }
-      ]
+      class TabsController extends React.Component {
+        state = {
+          active: "0"
+        }
 
-      return <Tabs tabs={tabs} />
+        handleChange = (active) => {
+          this.setState({ active })
+        }
+
+        render() {
+          return (
+            <div>
+              <Tabs
+                activeIndex={this.state.active}
+                onChange={this.handleChange}
+                >
+                <Tabs.TabList>
+                  {tabs.map((label, index) => (
+                    <Tabs.Tab index={index} key={index}>{label}</Tabs.Tab>
+                  ))}
+                  <Tabs.ActiveBar />
+                </Tabs.TabList>
+              </Tabs>
+              {tabs.map((label, index) => (
+                <div>
+                  <div>Make {label} active</div>
+                  <input type="radio" name="active" value={index} onClick={() => this.handleChange(index)} checked={String(this.state.active) === String(index)}/>
+                </div>
+              ))}
+            </div>
+          )
+        }
+      }
+
+      return (
+        <TabsController />
+      )
+    })
+    .add('Vertical', () => {
+      const tabs = ['Tab 1', 'Tab 2', 'Tab 3']
+      const DemoContainer = styled.div`
+        height: 100%;
+        width: 200px;
+      `
+      return (
+        <DemoContainer>
+          <Tabs vertical>
+            <Tabs.TabList>
+              {tabs.map((label, index) => (
+                <Tabs.Tab index={index} key={index}>{label}</Tabs.Tab>
+              ))}
+              <Tabs.ActiveBar />
+            </Tabs.TabList>
+          </Tabs>
+        </DemoContainer>
+      )
     })
 )
 
