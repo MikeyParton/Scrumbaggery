@@ -116,11 +116,16 @@ class Tabs extends React.Component {
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
     const { activeIndex, initialActiveIndex } = nextProps
-    return { ...prevState, activeIndex: activeIndex || initialActiveIndex }
+
+    return {
+      ...prevState,
+      activeIndex: doesntExist(activeIndex)
+        ? initialActiveIndex
+        : activeIndex
+    }
   }
 
   state = {
-    activeIndex: this.props.activeIndex || this.props.initialActiveIndex,
     setActiveIndex: this.setActiveIndex,
     setTabRef: this.setTabRef,
     vertical: this.props.vertical,
