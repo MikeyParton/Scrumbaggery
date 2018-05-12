@@ -14,7 +14,7 @@ const Card = (props) => {
         boxShadow: `rgba(0, 0, 0, 0.15) ${snapshot.isDragging ? 4 : 0}px ${snapshot.isDragging ? 4 : 0}px 2px`
       }}
     >
-      {item.content}
+      {item.name}
     </CardOuterContainer>
   )
 }

@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 export const ListOuterContainer = styled.div`
+  flex-shrink: 0;
   border-radius: 5px;
   width: 250px;
   height: 100%;

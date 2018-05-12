@@ -14,24 +14,36 @@ import AddIcon from 'react-icons/lib/fa/plus'
 
 class List extends React.Component {
   render() {
-    const { items } = this.props
+    const { provided, snapshot, items, name, id } = this.props
     return (
-      <ListOuterContainer>
+      <ListOuterContainer
+        innerRef={provided.innerRef}
+        isDragging={snapshot.isDragging}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps}
+      >
         <Header>
-          Fancy Card
+          {name}
           <Button dark circle fill="secondary">
             <ElipsisIcon />
           </Button>
         </Header>
         <ListDropZone>
-          <Droppable droppableId="droppable">
+          <Droppable
+            type="card"
+            droppableId={`list-${id}`}
+          >
             {(provided, snapshot) => (
               <ListInnerContainer
                 innerRef={provided.innerRef}
                 isDraggingOver={snapshot.isDraggingOver}
               >
                 {items.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                  <Draggable
+                    type="card"
+                    key={item.id}
+                    draggableId={`card-${item.id}`}
+                  >
                     {(provided, snapshot) => (
                       <Card
                         item={item}
