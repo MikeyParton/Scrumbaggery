@@ -4,7 +4,7 @@ export const ListOuterContainer = styled.div`
   flex-shrink: 0;
   border-radius: 5px;
   width: 250px;
-  height: 100%;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
   background-color: ${props => props.theme.colors['default-30']};
@@ -48,6 +48,7 @@ export const ListDropZone = styled.div`
 
 export const ListInnerContainer = styled.div`
   background: ${props => props.isDraggingOver ? '#AAE8FF' : 'lightgrey'};
+  min-height: 100px;
   padding: 8px;
   transition: background-color 0.3s;
 `

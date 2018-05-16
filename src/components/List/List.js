@@ -14,7 +14,7 @@ import AddIcon from 'react-icons/lib/fa/plus'
 
 class List extends React.Component {
   render() {
-    const { provided, snapshot, items, name, id } = this.props
+    const { provided, snapshot, items, name, id, index } = this.props
     return (
       <ListOuterContainer
         innerRef={provided.innerRef}
@@ -31,7 +31,7 @@ class List extends React.Component {
         <ListDropZone>
           <Droppable
             type="card"
-            droppableId={`list-${id}`}
+            droppableId={JSON.stringify({ type: 'list', id, index })}
           >
             {(provided, snapshot) => (
               <ListInnerContainer
@@ -42,7 +42,12 @@ class List extends React.Component {
                   <Draggable
                     type="card"
                     key={item.id}
-                    draggableId={`card-${item.id}`}
+                    draggableId={JSON.stringify({
+                      type: 'card',
+                      id: item.id,
+                      index })
+                    }
+                    index={index}
                   >
                     {(provided, snapshot) => (
                       <Card
