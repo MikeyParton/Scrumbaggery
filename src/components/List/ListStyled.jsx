@@ -20,6 +20,11 @@ export const Header = styled.div`
   justify-content: space-between;
 `
 
+export const ButtonContainer = styled.div`
+  flex-shrink: 0;
+  margin-left: 10px;
+`
+
 export const Footer = styled.div`
   display: flex;
   align-items: center;

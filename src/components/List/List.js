@@ -7,6 +7,7 @@ import {
   ListDropZone,
   Header,
   Footer,
+  ButtonContainer,
 } from './ListStyled'
 import Card from './Card'
 import ElipsisIcon from 'react-icons/lib/fa/ellipsis-h'
@@ -24,9 +25,11 @@ class List extends React.Component {
       >
         <Header>
           {name}
-          <Button dark circle fill="secondary">
-            <ElipsisIcon />
-          </Button>
+          <ButtonContainer>
+            <Button dark circle fill="secondary">
+              <ElipsisIcon style={{ marginTop: 3 }} />
+            </Button>
+          </ButtonContainer>
         </Header>
         <ListDropZone>
           <Droppable

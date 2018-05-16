@@ -72,8 +72,6 @@ class BoardDetail extends React.Component {
     const board = boardDetailQuery.board
     const lists = board.lists
 
-    debugger
-
     // Moving a list
     if (itemType === 'list') {
       moveListMutation({
