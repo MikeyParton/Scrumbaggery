@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import Button from '../Button/Button'
+import Button from 'components/Button/Button'
+import Card from 'components/Card/Card'
 import {
   ListOuterContainer,
   ListInnerContainer,
@@ -9,7 +10,6 @@ import {
   Footer,
   ButtonContainer,
 } from './ListStyled'
-import Card from './Card'
 import ElipsisIcon from 'react-icons/lib/fa/ellipsis-h'
 import AddIcon from 'react-icons/lib/fa/plus'
 
