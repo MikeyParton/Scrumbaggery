@@ -67,7 +67,7 @@ class List extends React.Component {
           </Droppable>
         </ListDropZone>
         <Footer>
-          <Button dark block fill="primary">
+          <Button dark block fill="primary" clickablePreset="medium">
             Add Card &nbsp;<AddIcon />
           </Button>
         </Footer>
