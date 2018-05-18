@@ -11,35 +11,27 @@ class Board extends React.Component {
     // Outside of list or if the position hasn't changed
     if (!destination) return
 
-    const { id: itemId, type: itemType } = JSON.parse(draggableId)
+    const { type: itemType } = JSON.parse(draggableId)
 
     // Moving a list
     if (itemType === 'list') {
       this.props.onMoveList({
-        id: itemId,
-        from: source.index,
-        to: destination.index
+        fromIndex: source.index,
+        toIndex: destination.index
       })
     }
 
     // Moving a card
     if (itemType === 'card') {
 
-      const { id: fromListId, index: fromListIndex } = JSON.parse(source.droppableId)
-      const { id: toListId, index: toListIndex } = JSON.parse(destination.droppableId)
+      const { index: fromListIndex } = JSON.parse(source.droppableId)
+      const { index: toListIndex } = JSON.parse(destination.droppableId)
 
       this.props.onMoveCard({
-        id: itemId,
-        from: {
-          listId: fromListId,
-          listIndex: fromListIndex,
-          position: source.index
-        },
-        to: {
-          listId: toListId,
-          listIndex: toListIndex,
-          position: destination.index
-        }
+        fromListIndex,
+        fromIndex: source.index,
+        toListIndex,
+        toIndex: destination.index
       })
     }
   }

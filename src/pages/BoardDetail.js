@@ -1,19 +1,20 @@
 import React from 'react'
 import { Query } from 'react-apollo'
 import { graphql, compose } from 'react-apollo'
-import { reorder, addToList, removeFromList } from 'utils/list'
+import { crossParentReorder, reorder, addToList, removeFromList } from 'utils/list'
 import { BOARD_DETAIL_QUERY, MOVE_LIST_MUTATION, MOVE_CARD_MUTATION } from 'data'
 import Board from 'components/Board/Board'
 
 class BoardDetailPage extends React.Component {
-  onMoveList = ({ id, from, to }) => {
+  onMoveList = ({ fromIndex, toIndex }) => {
     const { boardDetailQuery: { board }, moveListMutation } = this.props
-    const data = { board: { ...board, lists: reorder(board.lists, from, to) }}
+    const list = board.lists[fromIndex]
+    const data = { board: { ...board, lists: reorder(board.lists, fromIndex, toIndex) }}
 
     moveListMutation({
       variables: {
-        id,
-        position: to + 1
+        id: list.id,
+        position: toIndex + 1
       },
       optimisticResponse: {
         __typename: "Mutation",
@@ -28,40 +29,30 @@ class BoardDetailPage extends React.Component {
     })
   }
 
-  onMoveCard = ({ id, from, to }) => {
+  onMoveCard = ({
+    fromListIndex,
+    fromIndex,
+    toListIndex,
+    toIndex
+   }) => {
     const { boardDetailQuery: { board }, moveCardMutation } = this.props
-    const startingFromList = board.lists[from.listIndex].cards
+    const card = board.lists[fromListIndex].cards[fromIndex]
+    const toList = board.lists[toListIndex]
 
-    const finalFromList = removeFromList(
-      startingFromList,
-      from.position
-    )
-
-    const startingToList = to.listId === from.listId
-      ? finalFromList
-      : board.lists[to.listIndex].cards
-
-    const finalToList = addToList(
-      startingToList,
-      startingFromList[from.position],
-      to.position
-    )
-
-    const newLists = board.lists.map((list) => {
-      if (list.id == from.listId && list.id != to.listId) {
-        return { ...list, cards: finalFromList }
-      }
-      if (list.id == to.listId) {
-        return { ...list, cards: finalToList }
-      }
-      return list
+    const newLists = crossParentReorder({
+      lists: board.lists,
+      listKey: 'cards',
+      fromListIndex,
+      fromIndex,
+      toListIndex,
+      toIndex
     })
 
     moveCardMutation({
       variables: {
-        id,
-        position: to.position + 1,
-        list_id: to.listId
+        id: card.id,
+        position: toListIndex,
+        list_id: toList.id
       },
       optimisticResponse: {
         __typename: "Mutation",
