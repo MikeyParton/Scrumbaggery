@@ -22,7 +22,7 @@ export const ModalOverlay = styled.div`
 
 export const ModalInnerContainer = styled.div`
   background-color: white;
-  min-width: 200px;
+  width: 500px;
   z-index: 2;
   border-radius: 4px;
   position: relative;

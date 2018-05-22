@@ -13,6 +13,7 @@ import List from '../src/components/List/List.story'
 import Sidebar from '../src/components/Sidebar/Sidebar.story'
 import Tabs from '../src/components/Tabs/Tabs.story'
 import Modal from 'components/Modal/Modal.story'
+import Input from 'components/Input/Input.story'
 
 const themeProviderDecorator = story => {
   const themes = {scrumbag: scrumbagTheme }
@@ -33,3 +34,4 @@ Sidebar()
 Tabs()
 List()
 Modal()
+Input()

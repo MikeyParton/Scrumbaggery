@@ -21,7 +21,7 @@ class Modal extends React.Component {
       {({ close }) => (
         <HeaderContainer>
           {props.children}
-          {props.withClose && (
+          {!props.noCloseButton && (
             <Button
               dark
               circle
@@ -43,33 +43,52 @@ class Modal extends React.Component {
   )
 
   close = () => {
-    this.props.onClose()
+    const { onClose } = this.props
+    onClose && onClose()
   }
 
   state = {
     open: this.props.open,
-    close: this.close
+    close: this.close,
+    rested: false
+  }
+
+  static getDerivedStateFromProps = (nextProps, prevState) => {
+    return {
+      ...prevState,
+      open: nextProps.open,
+      rested: nextProps.open == prevState.open
+    }
+  }
+
+  onRest = () => {
+    if (!this.state.rested) {
+      this.setState({ rested: true })
+    }
   }
 
   render() {
-    const { open, children, withOverlay } = this.props
+    const { rested } = this.state
+    const { open, children, noOverlay } = this.props
     return (
-      <Spring to={{
-        opacity: open ? 1 : 0,
-        y: open ? 0 : 20,
-        scale: open ? 1 : 0.95
-      }}>
+      <Spring
+        onRest={this.onRest}
+        to={{
+          opacity: open ? 1 : 0,
+          scale: open ? 1 : 0.95
+        }}
+      >
         {({ opacity, y, scale }) => (
           <ModalContext.Provider value={this.state}>
             <ModalOuterContainer
               style={{
                 opacity,
-                zIndex: open ? 1 : -1
+                zIndex: rested && !open ? -1 : 1
               }}
             >
-              {withOverlay && <ModalOverlay />}
+              {!noOverlay && <ModalOverlay />}
               <ModalInnerContainer style={{
-                transform: `scale(${scale}) translateY(${y}px)`,
+                transform: `scale(${scale})`,
               }}>
                 {children}
               </ModalInnerContainer>

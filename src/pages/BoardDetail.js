@@ -4,8 +4,17 @@ import { graphql, compose } from 'react-apollo'
 import { crossParentReorder, reorder, addToList, removeFromList } from 'utils/list'
 import { BOARD_DETAIL_QUERY, MOVE_LIST_MUTATION, MOVE_CARD_MUTATION } from 'data'
 import Board from 'components/Board/Board'
+import AddCard from './AddCard'
 
 class BoardDetailPage extends React.Component {
+  state = {
+    addingCardToList: 1
+  }
+
+  setAddingCardToList = (id) => {
+    this.setState({ addingCardToList: id })
+  }
+
   onMoveList = ({ fromIndex, toIndex }) => {
     const { boardDetailQuery: { board }, moveListMutation } = this.props
     const list = board.lists[fromIndex]
@@ -69,17 +78,26 @@ class BoardDetailPage extends React.Component {
   }
 
   render() {
+    const { addingCardToList } = this.state
     const { loading, error, board } = this.props.boardDetailQuery
 
     if (loading) return <div>Loading...</div>
     if (error) return <div>Error</div>
 
     return (
-      <Board
-        board={board}
-        onMoveCard={this.onMoveCard}
-        onMoveList={this.onMoveList}
-      />
+      <div style={{ display: 'flex'}}>
+        <Board
+          board={board}
+          onMoveCard={this.onMoveCard}
+          onMoveList={this.onMoveList}
+          onAddCardToList={this.setAddingCardToList}
+        />
+        <AddCard
+          open={Boolean(addingCardToList)}
+          listId={addingCardToList}
+          onClose={() => this.setAddingCardToList(null)}
+        />
+      </div>
     )
   }
 }

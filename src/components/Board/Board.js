@@ -37,7 +37,10 @@ class Board extends React.Component {
   }
 
   render() {
-    const { name, lists, id } = this.props.board
+    const {
+      onAddCardToList,
+      board: { name, lists, id }
+    } = this.props
 
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
@@ -67,6 +70,7 @@ class Board extends React.Component {
                       id={list.id}
                       name={list.name}
                       items={list.cards}
+                      onAddCardToList={onAddCardToList}
                     />
                   )}
                 </Draggable>

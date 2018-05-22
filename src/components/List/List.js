@@ -15,7 +15,7 @@ import AddIcon from 'react-icons/lib/fa/plus'
 
 class List extends React.Component {
   render() {
-    const { provided, snapshot, items, name, id, index } = this.props
+    const { provided, snapshot, items, name, id, index, onAddCardToList } = this.props
     return (
       <ListOuterContainer
         innerRef={provided.innerRef}
@@ -67,7 +67,13 @@ class List extends React.Component {
           </Droppable>
         </ListDropZone>
         <Footer>
-          <Button dark block fill="primary" clickablePreset="medium">
+          <Button
+            dark
+            block
+            fill="primary"
+            clickablePreset="medium"
+            onClick={() => onAddCardToList(id)}
+          >
             Add Card &nbsp;<AddIcon />
           </Button>
         </Footer>
