@@ -7,7 +7,7 @@ import {
   select,
   text,
   withKnobs
-} from '@storybook/addon-knobs';
+} from '@storybook/addon-knobs'
 
 const ButtonStory = () => (
   storiesOf('Buttons', module)

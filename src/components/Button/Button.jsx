@@ -1,6 +1,6 @@
 import React from 'react'
 import ClickableStyles from './ClickableStyles'
-import { ButtonBase } from './ButtonStyled'
+import { ButtonBase, ButtonInnerContainer } from './ButtonStyled'
 
 const clickablePresets = {
   small: {
@@ -27,7 +27,9 @@ const Button = (props) => {
             boxShadow: `rgba(0, 0, 0, 0.15) 0px ${shadow}px 4px`
           }}
           >
-          {children}
+            <ButtonInnerContainer>
+              {children}
+            </ButtonInnerContainer>
         </ButtonBase>
       )}
     </ClickableStyles>

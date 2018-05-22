@@ -1,17 +1,32 @@
 import styled, { css } from 'styled-components'
 import { fill, darkLight } from '../../styles/colorHelpers'
+import { readableColor } from 'polished'
 
 export const ButtonBase = styled.div`
   ${fill}
-  ${darkLight}
   user-select: none;
-  width: 35px;
+  display: inline-block;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 2px;
+  border-radius: 5px;
   height: 35px;
+  min-width: 35px;
+  padding: 0 10px 0 10px;
+
+  // Circle Props
+  ${props => props.circle && css`
+    border-radius: 25px;
+    width: 35px;
+    padding: 0;
+  `}
+
+  // Block Props
+  ${props => props.block && css`width: 100%;`}
+`
+
+export const ButtonInnerContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 2px;
-  border-radius: ${props => props.circle ? 25 : 5}px;
-  ${props => props.block && css`width: 100%;`}
+  height: 100%;
 `
