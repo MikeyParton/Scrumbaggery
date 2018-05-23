@@ -2,17 +2,53 @@ import React from 'react'
 import { Query } from 'react-apollo'
 import { graphql, compose } from 'react-apollo'
 import { crossParentReorder, reorder, addToList, removeFromList } from 'utils/list'
-import { BOARD_DETAIL_QUERY, MOVE_LIST_MUTATION, MOVE_CARD_MUTATION } from 'data'
+import { ADD_CARD_MUTATION, BOARD_DETAIL_QUERY, MOVE_LIST_MUTATION, MOVE_CARD_MUTATION } from 'data'
 import Board from 'components/Board/Board'
 import AddCard from './AddCard'
 
 class BoardDetailPage extends React.Component {
   state = {
-    addingCardToList: 1
+    addingCardToList: null
   }
 
   setAddingCardToList = (id) => {
     this.setState({ addingCardToList: id })
+  }
+
+  onAddCard = (values) => {
+    const { boardDetailQuery: { board }, addCardMutation } = this.props
+
+    addCardMutation({
+      variables: {
+        list_id: values.list_id,
+        name: values.name
+      },
+      optimisticResponse: {
+        __typename: "Mutation",
+        create_card: {
+          __typename: "Card",
+          name: values.name,
+          id: Math.round(Math.random() * -1000000),
+          list: {
+            board_id: board.id
+          }
+        }
+      },
+      update: (store, response) => {
+        const { _list, ...card, } = response.data.create_card
+
+        const newLists = board.lists.map(list => ({
+          ...list,
+          cards: list.id == values.list_id
+            ? [...list.cards, card]
+            : list.cards
+        }))
+
+        const data = { board: { ...board, lists: newLists } }
+        store.writeQuery({ query: BOARD_DETAIL_QUERY, data })
+      }
+    })
+    this.setAddingCardToList(null)
   }
 
   onMoveList = ({ fromIndex, toIndex }) => {
@@ -96,6 +132,7 @@ class BoardDetailPage extends React.Component {
           open={Boolean(addingCardToList)}
           listId={addingCardToList}
           onClose={() => this.setAddingCardToList(null)}
+          onAddCard={this.onAddCard}
         />
       </div>
     )
@@ -103,6 +140,9 @@ class BoardDetailPage extends React.Component {
 }
 
 export default compose(
+  graphql(ADD_CARD_MUTATION, {
+    name: 'addCardMutation'
+  }),
   graphql(MOVE_LIST_MUTATION, {
     name: 'moveListMutation'
   }),

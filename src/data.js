@@ -32,3 +32,15 @@ export const MOVE_CARD_MUTATION = gql`
     }
   }
 `
+
+export const ADD_CARD_MUTATION = gql`
+  mutation AddCard($list_id: ID!, $name: String!) {
+    create_card(list_id: $list_id, name: $name) {
+      id
+      name
+      list {
+        board_id
+      }
+    }
+  }
+`
