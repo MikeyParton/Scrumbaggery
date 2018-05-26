@@ -65,7 +65,7 @@ class BoardDetailPage extends React.Component {
     moveListMutation({
       variables: {
         id: list.id,
-        position: toIndex + 1
+        position: toIndex
       },
       optimisticResponse: {
         __typename: "Mutation",
@@ -102,7 +102,7 @@ class BoardDetailPage extends React.Component {
     moveCardMutation({
       variables: {
         id: card.id,
-        position: toListIndex,
+        position: toIndex,
         list_id: toList.id
       },
       optimisticResponse: {
