@@ -1,6 +1,6 @@
 import React from 'react'
 import { Motion, spring } from 'react-motion'
-import { Header, InnerContainer, OuterContainer, Trigger, ExternalTrigger } from './SidebarStyled'
+import { Header, FixedOuterContainer, InnerContainer, OuterContainer, Trigger, ExternalTrigger } from './SidebarStyled'
 import MenuIcon from 'react-icons/lib/md/menu'
 import CloseIcon from 'react-icons/lib/md/close'
 import Tabs from 'components/Tabs/Tabs'
@@ -39,38 +39,41 @@ class Sidebar extends React.Component {
         {({x}) => {
           const currentOffset = this.currentOffset()
           const showInternalButton = currentOffset < INTERNAL_BUTTON_OFFSET - EXTRA_OFFSET
+          const showSideBar = x < OPEN_MAX
 
           return (
-            <div>
+            <FixedOuterContainer>
               {showInternalButton && (
                 <ExternalTrigger onClick={() => this.toggle()}>
                   <MenuIcon />
                 </ExternalTrigger>
               )}
-              <OuterContainer
-                innerRef={(ref) => { this.sidebar = ref }}
-                open={open}
-                style={{
-                  left: `-${(x / OPEN_MAX) * (WIDTH + EXTRA_OFFSET)}px`
-                }}
-                >
-                <Header>
-                  <div>{title}</div>
-                  {!showInternalButton && (
-                    <Trigger onClick={() => this.toggle()}>
-                      <CloseIcon />
-                    </Trigger>
-                  )}
-                </Header>
-                <Tabs vertical initialActiveIndex="0">
-                  <Tabs.TabList>
-                    <Tabs.Tab index="0">Hello</Tabs.Tab>
-                    <Tabs.Tab index="1">Yay</Tabs.Tab>
-                    <Tabs.ActiveBar />
-                  </Tabs.TabList>
-                </Tabs>
-              </OuterContainer>
-            </div>
+              { showSideBar && (
+                <OuterContainer
+                  innerRef={(ref) => { this.sidebar = ref }}
+                  open={open}
+                  style={{
+                    left: `-${(x / OPEN_MAX) * (WIDTH + EXTRA_OFFSET)}px`
+                  }}
+                  >
+                  <Header>
+                    <div>{title}</div>
+                    {!showInternalButton && (
+                      <Trigger onClick={() => this.toggle()}>
+                        <CloseIcon />
+                      </Trigger>
+                    )}
+                  </Header>
+                  <Tabs vertical initialActiveIndex="0">
+                    <Tabs.TabList>
+                      <Tabs.Tab index="0">Hello</Tabs.Tab>
+                      <Tabs.Tab index="1">Yay</Tabs.Tab>
+                      <Tabs.ActiveBar />
+                    </Tabs.TabList>
+                  </Tabs>
+                </OuterContainer>
+              )}
+            </FixedOuterContainer>
           )
         }}
       </Motion>

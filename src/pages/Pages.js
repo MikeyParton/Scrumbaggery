@@ -23,6 +23,8 @@ const Navbar = styled.div`
   width: 100%;
   position: fixed;
   display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 const PageContent = styled.div`
@@ -36,9 +38,6 @@ class Pages extends Component {
     return (
       <Router>
         <FullScreen>
-          <Navbar>
-            <Sidebar>Hello</Sidebar>
-          </Navbar>
           <PageContent>
             <Switch>
               <Route path="/" exact component={Home} />
@@ -47,6 +46,10 @@ class Pages extends Component {
               <Route component={FourOhFour} />
             </Switch>
           </PageContent>
+          <Navbar>
+            <b>ScrumBag</b>
+          </Navbar>
+          <Sidebar />
         </FullScreen>
       </Router>
     )

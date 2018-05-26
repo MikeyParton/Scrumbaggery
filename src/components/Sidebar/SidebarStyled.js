@@ -1,6 +1,12 @@
 import styled from 'styled-components'
 import mediaQueries from '../../styles/mediaQueries'
 
+export const FixedOuterContainer = styled.div`
+  position: fixed;
+  top: 0;
+  bottom: 0;
+`
+
 export const OuterContainer = styled.div`
   width: 200px;
   position: fixed;

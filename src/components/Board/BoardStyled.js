@@ -1,11 +1,12 @@
 import styled from 'styled-components'
 
 export const BoardContainer = styled.div`
-  padding: 20px;
+  padding: 20px 0 20px 20px;
   display: flex;
+  align-items: flex-start;
 
   > * {
-    &:not(first-child) {
+    &:not(last-child) {
       margin-right: 20px;
     }
   }
