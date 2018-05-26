@@ -49,7 +49,7 @@ class BoardDetailPage extends React.Component {
         store.writeFragment({
           id: `List:${values.list_id}`,
           fragment: BoardDetailPageData.fragments.list,
-          data: { ...list, cards: [...list.cards, card] },
+          data: { ...list, cards: [card, ...list.cards] },
           fragmentName: 'BoardDetailPageList'
         });
       }
@@ -108,8 +108,8 @@ class BoardDetailPage extends React.Component {
       optimisticResponse: {
         __typename: "Mutation",
         move_card: {
-          __typename: "Board",
-          id: board.id
+          __typename: "Card",
+          id: card.id
         }
       },
       update: (store, response) => {
@@ -127,7 +127,7 @@ class BoardDetailPage extends React.Component {
     if (error) return <div>Error</div>
 
     return (
-      <div style={{ display: 'flex'}}>
+      <div style={{ width: '100vw', display: 'flex'}}>
         <Board
           board={board}
           onMoveCard={this.onMoveCard}

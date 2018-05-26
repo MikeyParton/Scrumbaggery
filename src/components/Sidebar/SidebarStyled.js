@@ -3,10 +3,10 @@ import mediaQueries from '../../styles/mediaQueries'
 
 export const OuterContainer = styled.div`
   width: 200px;
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
-  z-index: 2;
+  z-index: 5;
   background-color: ${props => props.theme.colors['greyLightest']};
   box-shadow: rgba(0, 0, 0, 0.15) 2px 0px 20px;
 

@@ -20,11 +20,14 @@ const FullScreen = styled.div`
 
 const Navbar = styled.div`
   height: 50px;
-  flex-shrink: 0;
+  width: 100%;
+  position: fixed;
+  display: flex;
 `
 
 const PageContent = styled.div`
   flex-grow: 1;
+  margin-top: 50px;
   display: flex;
 `
 
@@ -33,10 +36,9 @@ class Pages extends Component {
     return (
       <Router>
         <FullScreen>
-          <Sidebar>
-            Hello
-          </Sidebar>
-          <Navbar />
+          <Navbar>
+            <Sidebar>Hello</Sidebar>
+          </Navbar>
           <PageContent>
             <Switch>
               <Route path="/" exact component={Home} />
