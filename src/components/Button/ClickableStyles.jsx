@@ -44,18 +44,22 @@ class ClickableStyles extends React.Component {
     ...props
   } = {}) => ({
     onMouseDown: (...args) => {
+      if (props.disabled) return
       onMouseDown && onMouseDown()
       this.onMouseDown()
     },
     onMouseUp: (...args) => {
+      if (props.disabled) return
       onMouseUp && onMouseUp()
       this.onMouseUp()
     },
     onMouseEnter: (...args) => {
+      if (props.disabled) return
       onMouseEnter && onMouseEnter()
       this.onMouseEnter()
     },
     onMouseLeave: (...args) => {
+      if (props.disabled) return
       onMouseLeave && onMouseLeave()
       this.onMouseLeave()
     },

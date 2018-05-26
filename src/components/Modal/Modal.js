@@ -6,7 +6,9 @@ import {
   ModalInnerContainer,
   ModalOuterContainer,
   HeaderContainer,
+  InnerHeaderContainer,
   ContentContainer,
+  FooterContainer,
   ModalOverlay
 } from './ModalStyled'
 
@@ -20,7 +22,9 @@ class Modal extends React.Component {
     <ModalContext.Consumer>
       {({ close }) => (
         <HeaderContainer>
-          {props.children}
+          <InnerHeaderContainer noCloseButton={props.noCloseButton}>
+            {props.children}
+          </InnerHeaderContainer>
           {!props.noCloseButton && (
             <Button
               dark
@@ -41,6 +45,15 @@ class Modal extends React.Component {
       {props.children}
     </ContentContainer>
   )
+
+  static Footer = (props) => {
+    const { children, ...rest } = props
+    return (
+      <FooterContainer {...rest}>
+        {children}
+      </FooterContainer>
+    )
+  }
 
   close = () => {
     const { onClose } = this.props
@@ -70,6 +83,7 @@ class Modal extends React.Component {
   render() {
     const { rested } = this.state
     const { open, children, noOverlay } = this.props
+
     return (
       <Spring
         onRest={this.onRest}
@@ -78,23 +92,27 @@ class Modal extends React.Component {
           scale: open ? 1 : 0.95
         }}
       >
-        {({ opacity, y, scale }) => (
-          <ModalContext.Provider value={this.state}>
-            <ModalOuterContainer
-              style={{
-                opacity,
-                zIndex: rested && !open ? -1 : 1
-              }}
-            >
-              {!noOverlay && <ModalOverlay />}
-              <ModalInnerContainer style={{
-                transform: `scale(${scale})`,
-              }}>
-                {children}
-              </ModalInnerContainer>
-            </ModalOuterContainer>
-          </ModalContext.Provider>
-        )}
+        {({ opacity, y, scale }) => {
+          if (!open && rested) return null
+
+          return (
+            <ModalContext.Provider value={this.state}>
+              <ModalOuterContainer
+                style={{
+                  opacity,
+                  zIndex: rested && !open ? -1 : 1
+                }}
+              >
+                {!noOverlay && <ModalOverlay />}
+                <ModalInnerContainer style={{
+                  transform: `scale(${scale})`,
+                }}>
+                  {children}
+                </ModalInnerContainer>
+              </ModalOuterContainer>
+            </ModalContext.Provider>
+          )
+        }}
       </Spring>
     )
   }

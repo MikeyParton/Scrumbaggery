@@ -2,9 +2,15 @@ import React from 'react'
 import { Query } from 'react-apollo'
 import { graphql, compose } from 'react-apollo'
 import { crossParentReorder, reorder, addToList, removeFromList } from 'utils/list'
-import { ADD_CARD_MUTATION, BOARD_DETAIL_QUERY, MOVE_LIST_MUTATION, MOVE_CARD_MUTATION } from 'data'
+import {
+  ADD_CARD_MUTATION,
+  BOARD_DETAIL_QUERY,
+  MOVE_LIST_MUTATION,
+  MOVE_CARD_MUTATION,
+  BoardDetailPageData
+} from 'data'
 import Board from 'components/Board/Board'
-import AddCard from './AddCard'
+import AddCard from 'components/AddCard/AddCard'
 
 class BoardDetailPage extends React.Component {
   state = {
@@ -29,23 +35,23 @@ class BoardDetailPage extends React.Component {
           __typename: "Card",
           name: values.name,
           id: Math.round(Math.random() * -1000000),
-          list: {
-            board_id: board.id
-          }
         }
       },
       update: (store, response) => {
-        const { _list, ...card, } = response.data.create_card
+        const card = response.data.create_card
 
-        const newLists = board.lists.map(list => ({
-          ...list,
-          cards: list.id == values.list_id
-            ? [...list.cards, card]
-            : list.cards
-        }))
+        const list = store.readFragment({
+          id: `List:${values.list_id}`,
+          fragment: BoardDetailPageData.fragments.list,
+          fragmentName: 'BoardDetailPageList'
+        })
 
-        const data = { board: { ...board, lists: newLists } }
-        store.writeQuery({ query: BOARD_DETAIL_QUERY, data })
+        store.writeFragment({
+          id: `List:${values.list_id}`,
+          fragment: BoardDetailPageData.fragments.list,
+          data: { ...list, cards: [...list.cards, card] },
+          fragmentName: 'BoardDetailPageList'
+        });
       }
     })
     this.setAddingCardToList(null)

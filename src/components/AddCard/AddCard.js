@@ -1,6 +1,7 @@
 import React from 'react'
 import { withFormik } from 'formik'
 import Modal from 'components/Modal/Modal'
+import FormGroup from 'components/FormGroup/FormGroup'
 import Label from 'components/Label/Label'
 import Input from 'components/Input/Input'
 import Button from 'components/Button/Button'
@@ -23,12 +24,13 @@ class AddCard extends React.Component {
     return (
       <Modal open={open} onClose={onClose}>
         <Modal.Header>
-          Add A Card to
+          <b>Make a New Card</b>
         </Modal.Header>
-        <Modal.Content>
-          <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
+          <Modal.Content>
             <Label htmlFor="name">Name</Label>
             <Input
+              autoFocus="true"
               onBlur={handleBlur}
               name="name"
               type="text"
@@ -36,10 +38,11 @@ class AddCard extends React.Component {
               onChange={handleChange}
               placeholder="What needs to be done ?"
             />
-            <button type="submit">Submit</button>
-            <Button onClick={handleSubmit} fill="primary">Create</Button>
-          </form>
-        </Modal.Content>
+          </Modal.Content>
+          <Modal.Footer alignRight>
+            <Button disabled={!values.name} onClick={handleSubmit} fill="primary">Create</Button>
+          </Modal.Footer>
+        </form>
       </Modal>
     )
   }

@@ -26,16 +26,27 @@ export const ModalInnerContainer = styled.div`
   z-index: 2;
   border-radius: 4px;
   position: relative;
+  padding: 16px;
 `
 
 export const HeaderContainer = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 16px;
-  border-bottom: 1px solid black;
+`
+
+export const InnerHeaderContainer = styled.div`
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  margin-right: ${props => props.noCloseButton ? 0 : 15 }px;
+  margin-left: ${props => props.noCloseButton ? 0 : 50 }px;
 `
 
 export const ContentContainer = styled.div`
-  padding: 16px;
+  padding: 16px 0;
+`
+
+export const FooterContainer = styled.div`
+  display: flex;
+  ${(props) => props.alignRight && `justify-content: flex-end;`}
 `

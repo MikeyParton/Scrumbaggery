@@ -68,7 +68,6 @@ class List extends React.Component {
         </ListDropZone>
         <Footer>
           <Button
-            dark
             block
             fill="primary"
             clickablePreset="medium"

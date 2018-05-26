@@ -1,20 +1,39 @@
 import gql from 'graphql-tag'
 
+const cardFragment = gql`
+  fragment BoardDetailPageCard on Card {
+    id
+    name
+  }
+`
+
+export const BoardDetailPageData = {
+  fragments: {
+    card: cardFragment,
+    list: gql`
+      fragment BoardDetailPageList on List {
+        id
+        name
+        cards {
+          ...BoardDetailPageCard
+        }
+      }
+      ${cardFragment}
+    `
+  }
+}
+
 export const BOARD_DETAIL_QUERY = gql`
   query BoardDetail($id: ID!) {
     board(id: $id) {
       id
       name
       lists {
-        id
-        name
-        cards {
-          id
-          name
-        }
+        ...BoardDetailPageList
       }
     }
   }
+  ${BoardDetailPageData.fragments.list}
 `
 
 export const MOVE_LIST_MUTATION = gql`
@@ -36,11 +55,8 @@ export const MOVE_CARD_MUTATION = gql`
 export const ADD_CARD_MUTATION = gql`
   mutation AddCard($list_id: ID!, $name: String!) {
     create_card(list_id: $list_id, name: $name) {
-      id
-      name
-      list {
-        board_id
-      }
+      ...BoardDetailPageCard
     }
   }
+  ${cardFragment}
 `

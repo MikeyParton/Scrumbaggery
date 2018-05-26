@@ -3,7 +3,7 @@ import { InputBase } from './InputStyled'
 
 const Input = (props) => {
   return (
-    <InputBase {...props} />
+    <InputBase autoComplete="off" {...props} />
   )
 }
 
