@@ -52,6 +52,15 @@ export const MOVE_CARD_MUTATION = gql`
   }
 `
 
+export const ADD_LIST_MUTATION = gql`
+  mutation AddList($board_id: ID!, $name: String!) {
+    create_list(board_id: $board_id, name: $name) {
+      ...BoardDetailPageList
+    }
+  }
+  ${BoardDetailPageData.fragments.list}
+`
+
 export const ADD_CARD_MUTATION = gql`
   mutation AddCard($list_id: ID!, $name: String!) {
     create_card(list_id: $list_id, name: $name) {
