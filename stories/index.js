@@ -14,6 +14,7 @@ import Sidebar from '../src/components/Sidebar/Sidebar.story'
 import Tabs from '../src/components/Tabs/Tabs.story'
 import Modal from 'components/Modal/Modal.story'
 import Input from 'components/Input/Input.story'
+import DropDown from 'components/DropDown/DropDown.story'
 
 const themeProviderDecorator = story => {
   const themes = {scrumbag: scrumbagTheme }
@@ -35,3 +36,4 @@ Tabs()
 List()
 Modal()
 Input()
+DropDown()
