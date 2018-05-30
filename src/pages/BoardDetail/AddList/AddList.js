@@ -1,32 +1,34 @@
 import React from 'react'
 import { BoardConsumer } from '../BoardContext'
-import { withFormik } from 'formik'
+import { Formik } from 'formik';
 import Modal from 'components/Modal/Modal'
 import FormGroup from 'components/FormGroup/FormGroup'
 import Label from 'components/Label/Label'
 import Input from 'components/Input/Input'
 import Button from 'components/Button/Button'
 
-class AddCard extends React.Component {
-  render() {
-    const {
-      values,
-      touched,
-      errors,
-      dirty,
-      isSubmitting,
-      handleChange,
-      handleBlur,
-      handleSubmit,
-      handleReset
-    } = this.props
-    return (
-      <BoardConsumer>
-        {({ addingList, setAddingList }) => (
-          <Modal open={addingList} onClose={() => setAddingList(false)}>
-            <Modal.Header>
-              <b>Make a New List</b>
-            </Modal.Header>
+const AddList = () => (
+  <BoardConsumer>
+    {({ addList, addingList, setAddingList }) => (
+      <Modal open={addingList} onClose={() => setAddingList(false)}>
+        <Modal.Header>
+          <b>Make a New List</b>
+        </Modal.Header>
+        <Formik
+          initialValues={{ name: '' }}
+          onSubmit={(values, { setSubmitting, setErrors }) => {
+            addList(values)
+            setAddingList(false)
+          }}
+          render={({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting
+          }) => (
             <form onSubmit={handleSubmit}>
               <Modal.Content>
                 <Label htmlFor="name">Name</Label>
@@ -48,17 +50,10 @@ class AddCard extends React.Component {
                   Create</Button>
               </Modal.Footer>
             </form>
-          </Modal>
-        )}
-      </BoardConsumer>
-    )
-  }
-}
+          )}/>
+      </Modal>
+    )}
+  </BoardConsumer>
+)
 
-export default withFormik({
-  mapPropsToValues: (props) => ({ name: '' }),
-  handleSubmit: (values, { props, setSubmitting }) => {
-    props.onSubmit({ ...values })
-  },
-  displayName: 'AddCardForm'
-})(AddCard)
+export default AddList
