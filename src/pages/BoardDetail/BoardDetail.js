@@ -1,9 +1,10 @@
 import React from 'react'
-import { Query } from 'react-apollo'
+import { BoardProvider, BoardConsumer } from './BoardContext'
 import { graphql, compose } from 'react-apollo'
 import { crossParentReorder, reorder, addToList, removeFromList } from 'utils/list'
 import {
   ADD_LIST_MUTATION,
+  DELETE_LIST_MUTATION,
   ADD_CARD_MUTATION,
   BOARD_DETAIL_QUERY,
   MOVE_LIST_MUTATION,
@@ -62,6 +63,26 @@ class BoardDetailPage extends React.Component {
       }
     })
     this.setAddingList(false)
+  }
+
+  onDeleteList = (id) => {
+    const { boardDetailQuery: { board }, deleteListMutation } = this.props
+    deleteListMutation({
+      variables: { id },
+      optimisticResponse: {
+        __typename: "Mutation",
+        delete_list: {
+          __typename: "List",
+          id
+        }
+      },
+      update: (store, response) => {
+        store.writeQuery({
+          query: BOARD_DETAIL_QUERY,
+          data: { board: { ...board, lists: board.lists.filter(list => list.id != id) }}
+        })
+      }
+    })
   }
 
   onAddCard = (values) => {
@@ -164,42 +185,50 @@ class BoardDetailPage extends React.Component {
 
   render() {
     const { addingCardToList, addingList } = this.state
-    const { loading, error, board } = this.props.boardDetailQuery
-
-    if (loading) return <div>Loading...</div>
-    if (error) return <div>Error</div>
 
     return (
-      <div style={{ width: '100vw', display: 'flex', flexDirection: 'column'}}>
-        <div style={{ padding: 20, position: 'fixed', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <b style={{ marginRight: 20 }}>{board.name}</b>
-          <Button
-            onClick={()=> this.setAddingList(true)}
-            fill="primary">
-            Add a List
-          </Button>
-        </div>
-        <div style={{ marginTop: 50, display: 'flex', flexGrow: 1 }}>
-          <Board
-            board={board}
-            onMoveCard={this.onMoveCard}
-            onMoveList={this.onMoveList}
-            onAddCardToList={this.setAddingCardToList}
-          />
-          <AddCard
-            open={Boolean(addingCardToList)}
-            listId={addingCardToList}
-            onClose={() => this.setAddingCardToList(null)}
-            onAddCard={this.onAddCard}
-          />
-          <AddList
-            open={addingList}
-            boardId={board.id}
-            onSubmit={this.onAddList}
-            onClose={() => this.setAddingList(false)}
-          />
-        </div>
-      </div>
+      <BoardProvider>
+        <BoardConsumer>
+          {({ boardDetailQuery: { loading, error, board } }) => {
+            if (loading) return <div>Loading...</div>
+            if (error) return <div>Error</div>
+
+            return (
+              <div style={{ width: '100vw', display: 'flex', flexDirection: 'column'}}>
+                <div style={{ padding: 20, position: 'fixed', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <b style={{ marginRight: 20 }}>{board.name}</b>
+                  <Button
+                    onClick={()=> this.setAddingList(true)}
+                    fill="primary">
+                    Add a List
+                  </Button>
+                </div>
+                <div style={{ marginTop: 50, display: 'flex', flexGrow: 1 }}>
+                  <Board
+                    board={board}
+                    onMoveCard={this.onMoveCard}
+                    onMoveList={this.onMoveList}
+                    onDeleteList={this.onDeleteList}
+                    onAddCardToList={this.setAddingCardToList}
+                  />
+                  <AddCard
+                    open={Boolean(addingCardToList)}
+                    listId={addingCardToList}
+                    onClose={() => this.setAddingCardToList(null)}
+                    onAddCard={this.onAddCard}
+                  />
+                  <AddList
+                    open={addingList}
+                    boardId={board.id}
+                    onSubmit={this.onAddList}
+                    onClose={() => this.setAddingList(false)}
+                  />
+                </div>
+              </div>
+            )
+          }}
+        </BoardConsumer>
+      </BoardProvider>
     )
   }
 }
@@ -207,6 +236,9 @@ class BoardDetailPage extends React.Component {
 export default compose(
   graphql(ADD_LIST_MUTATION, {
     name: 'addListMutation'
+  }),
+  graphql(DELETE_LIST_MUTATION, {
+    name: 'deleteListMutation'
   }),
   graphql(ADD_CARD_MUTATION, {
     name: 'addCardMutation'

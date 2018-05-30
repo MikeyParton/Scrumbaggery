@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import Home from 'pages/Home'
 import Boards from 'pages/Boards'
-import BoardDetail from 'pages/BoardDetail'
+import BoardDetail from 'pages/BoardDetail/BoardDetail'
 import CardDetail from 'pages/CardDetail'
 import FourOhFour from 'pages/FourOhFour'
 import Sidebar from 'components/Sidebar/Sidebar'

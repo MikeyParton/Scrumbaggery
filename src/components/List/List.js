@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import Button from 'components/Button/Button'
 import Card from 'components/Card/Card'
+import DropDown from 'components/DropDown/DropDown'
 import {
   ListOuterContainer,
   ListInnerContainer,
@@ -15,7 +16,16 @@ import AddIcon from 'react-icons/lib/fa/plus'
 
 class List extends React.Component {
   render() {
-    const { provided, snapshot, items, name, id, index, onAddCardToList } = this.props
+    const {
+      provided,
+      snapshot,
+      items,
+      name,
+      id,
+      index,
+      onAddCardToList,
+      onDeleteList
+    } = this.props
     return (
       <ListOuterContainer
         innerRef={provided.innerRef}
@@ -26,9 +36,16 @@ class List extends React.Component {
         <Header>
           {name}
           <ButtonContainer>
-            <Button dark circle fill="secondary">
-              <ElipsisIcon style={{ marginTop: 3 }} />
-            </Button>
+            <DropDown>
+              <DropDown.Button circle fill="secondary">
+                <ElipsisIcon style={{ marginTop: 3 }} />
+              </DropDown.Button>
+              <DropDown.Content>
+                <DropDown.Option onClick={() => onDeleteList(id)}>
+                  Delete
+                </DropDown.Option>
+              </DropDown.Content>
+            </DropDown>
           </ButtonContainer>
         </Header>
         <ListDropZone>

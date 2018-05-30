@@ -39,6 +39,7 @@ class Board extends React.Component {
   render() {
     const {
       onAddCardToList,
+      onDeleteList,
       board: { name, lists, id }
     } = this.props
 
@@ -70,6 +71,7 @@ class Board extends React.Component {
                       id={list.id}
                       name={list.name}
                       items={list.cards}
+                      onDeleteList={onDeleteList}
                       onAddCardToList={onAddCardToList}
                     />
                   )}

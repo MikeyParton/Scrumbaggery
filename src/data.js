@@ -36,12 +36,15 @@ export const BOARD_DETAIL_QUERY = gql`
   ${BoardDetailPageData.fragments.list}
 `
 
-export const MOVE_LIST_MUTATION = gql`
-  mutation MoveList($id: ID!, $position: Int!) {
-    move_list(id: $id, position: $position) {
-      id
+// CARD MUTATIONS
+
+export const ADD_CARD_MUTATION = gql`
+  mutation AddCard($list_id: ID!, $name: String!) {
+    create_card(list_id: $list_id, name: $name) {
+      ...BoardDetailPageCard
     }
   }
+  ${cardFragment}
 `
 
 export const MOVE_CARD_MUTATION = gql`
@@ -52,6 +55,8 @@ export const MOVE_CARD_MUTATION = gql`
   }
 `
 
+// LIST MUTATIONS
+
 export const ADD_LIST_MUTATION = gql`
   mutation AddList($board_id: ID!, $name: String!) {
     create_list(board_id: $board_id, name: $name) {
@@ -61,11 +66,18 @@ export const ADD_LIST_MUTATION = gql`
   ${BoardDetailPageData.fragments.list}
 `
 
-export const ADD_CARD_MUTATION = gql`
-  mutation AddCard($list_id: ID!, $name: String!) {
-    create_card(list_id: $list_id, name: $name) {
-      ...BoardDetailPageCard
+export const MOVE_LIST_MUTATION = gql`
+  mutation MoveList($id: ID!, $position: Int!) {
+    move_list(id: $id, position: $position) {
+      id
     }
   }
-  ${cardFragment}
+`
+
+export const DELETE_LIST_MUTATION = gql`
+  mutation DeleteList($id: ID!) {
+    delete_list(id: $id) {
+      id
+    }
+  }
 `
