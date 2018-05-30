@@ -1,9 +1,9 @@
 import React from 'react'
-import List from 'components/List/List'
+import List from '../List/List'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { BoardContainer } from './BoardStyled'
 
-class Board extends React.Component {
+class BoardBase extends React.Component {
   onDragEnd = (event) => {
     const { destination, source, draggableId } = event
 
@@ -15,7 +15,7 @@ class Board extends React.Component {
 
     // Moving a list
     if (itemType === 'list') {
-      this.props.onMoveList({
+      this.props.moveList({
         fromIndex: source.index,
         toIndex: destination.index
       })
@@ -23,11 +23,10 @@ class Board extends React.Component {
 
     // Moving a card
     if (itemType === 'card') {
-
       const { index: fromListIndex } = JSON.parse(source.droppableId)
       const { index: toListIndex } = JSON.parse(destination.droppableId)
 
-      this.props.onMoveCard({
+      this.props.moveCard({
         fromListIndex,
         fromIndex: source.index,
         toListIndex,
@@ -39,20 +38,22 @@ class Board extends React.Component {
   render() {
     const {
       onAddCardToList,
-      onDeleteList,
-      board: { name, lists, id }
+      boardDetailQuery: { loading, error, board }
     } = this.props
+
+    if (loading) return <div>Loading...</div>
+    if (error) return <div>Error</div>
 
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Droppable
           type="list"
           direction="horizontal"
-          droppableId={`board-${id}`}
+          droppableId={`board-${board.id}`}
           >
           {(provided, snapshot) => (
             <BoardContainer innerRef={provided.innerRef}>
-              {lists.map((list, index) => (
+              {board.lists.map((list, index) => (
                 <Draggable
                   type="list"
                   key={list.id}
@@ -71,7 +72,6 @@ class Board extends React.Component {
                       id={list.id}
                       name={list.name}
                       items={list.cards}
-                      onDeleteList={onDeleteList}
                       onAddCardToList={onAddCardToList}
                     />
                   )}
@@ -86,4 +86,4 @@ class Board extends React.Component {
   }
 }
 
-export default Board
+export default BoardBase

@@ -18,6 +18,10 @@ const BoardContext = React.createContext({
 export const BoardConsumer = BoardContext.Consumer
 
 class BoardProviderBase extends React.Component {
+  state = {
+    addingList: false,
+    addingCardToListId: null
+  }
 
   addList = (values) => {
     const { boardDetailQuery: { board }, addListMutation } = this.props
@@ -180,7 +184,14 @@ class BoardProviderBase extends React.Component {
         moveList: this.moveList,
         deleteList: this.deleteList,
         addCard: this.addCard,
-        moveCard: this.moveCard
+        moveCard: this.moveCard,
+        setAddingList: (addingList) => {
+          this.setState({ addingList })
+        },
+        setAddingCardToListId: (addingCardToListId) => {
+          this.setState({ addingCardToListId })
+        },
+        ...this.state
       }}>
         {children}
       </BoardContext.Provider>
