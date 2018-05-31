@@ -27,7 +27,12 @@ class List extends React.Component {
     } = this.props
     return (
       <BoardConsumer>
-        {({ deleteList, setAddingCardToListId }) => (
+        {({
+          deleteList,
+          setAddingCardToListId,
+          setIsDragDisabled,
+          isDragDisabled
+        }) => (
           <ListOuterContainer
             innerRef={provided.innerRef}
             isDragging={snapshot.isDragging}
@@ -37,7 +42,9 @@ class List extends React.Component {
             <Header>
               {name}
               <ButtonContainer>
-                <DropDown>
+                <DropDown
+                  onOpen={() => setIsDragDisabled(true)}
+                  onClose={() => setIsDragDisabled(false)}>
                   <DropDown.Button circle fill="secondary">
                     <ElipsisIcon style={{ marginTop: 3 }} />
                   </DropDown.Button>
@@ -63,12 +70,13 @@ class List extends React.Component {
                       <Draggable
                         type="card"
                         key={item.id}
+                        index={index}
+                        isDragDisabled={isDragDisabled}
                         draggableId={JSON.stringify({
                           type: 'card',
                           id: item.id,
                           index })
                         }
-                        index={index}
                       >
                         {(provided, snapshot) => (
                           <Card
@@ -89,8 +97,7 @@ class List extends React.Component {
                 block
                 fill="primary"
                 clickablePreset="medium"
-                onClick={() => setAddingCardToListId(id)}
-              >
+                onClick={() => setAddingCardToListId(id)}>
                 Add Card &nbsp;<AddIcon />
               </Button>
             </Footer>

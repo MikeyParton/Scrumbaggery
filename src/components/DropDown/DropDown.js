@@ -2,7 +2,11 @@ import React from 'react'
 import Toggle from 'components/Toggle/Toggle'
 import Button from 'components/Button/Button'
 import { Transition } from 'react-spring'
-import { DropDownOption, DropDownContentContainer, RelativeContainer } from './DropDownStyled'
+import {
+  DropDownOption,
+  DropDownContentContainer,
+  RelativeContainer
+} from './DropDownStyled'
 
 const DropDownContext = React.createContext({
   open: null,
@@ -55,7 +59,14 @@ class DropDown extends React.Component {
   }
 
   toggle = () => {
-    this.setState({ open: !this.state.open })
+    const { open } = this.state
+    const { onOpen, onClose } = this.props
+    this.setState({ open: !open })
+    if (open) {
+      onClose && onClose()
+    } else {
+      onOpen && onOpen()
+    }
   }
 
   state = {

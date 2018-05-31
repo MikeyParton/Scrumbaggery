@@ -38,6 +38,7 @@ class BoardBase extends React.Component {
   render() {
     const {
       onAddCardToList,
+      isDragDisabled,
       boardDetailQuery: { loading, error, board }
     } = this.props
 
@@ -57,12 +58,13 @@ class BoardBase extends React.Component {
                 <Draggable
                   type="list"
                   key={list.id}
+                  index={index}
+                  isDragDisabled={isDragDisabled}
                   draggableId={JSON.stringify({
                     type: 'list',
                     id: list.id,
                     index
                   })}
-                  index={index}
                   >
                   {(provided2, snapshot2) => (
                     <List

@@ -7,13 +7,15 @@ const Board = () => (
     {({
       boardDetailQuery,
       moveList,
-      moveCard
+      moveCard,
+      isDragDisabled
     }) => (
       <BoardBase
         {...{
           boardDetailQuery,
           moveList,
-          moveCard
+          moveCard,
+          isDragDisabled
         }}
       />
     )}

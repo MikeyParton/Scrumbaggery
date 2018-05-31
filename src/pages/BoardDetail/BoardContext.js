@@ -20,7 +20,8 @@ export const BoardConsumer = BoardContext.Consumer
 class BoardProviderBase extends React.Component {
   state = {
     addingList: false,
-    addingCardToListId: null
+    addingCardToListId: null,
+    isDragDisabled: false
   }
 
   addList = (values) => {
@@ -190,6 +191,9 @@ class BoardProviderBase extends React.Component {
         },
         setAddingCardToListId: (addingCardToListId) => {
           this.setState({ addingCardToListId })
+        },
+        setIsDragDisabled: (isDragDisabled) => {
+          this.setState({ isDragDisabled })
         },
         ...this.state
       }}>
