@@ -8,7 +8,7 @@ import {
   DELETE_LIST_MUTATION,
   ADD_CARD_MUTATION,
   MOVE_CARD_MUTATION,
-  BoardDetailPageData
+  BoardDetailPageFragments
 } from 'data'
 
 const BoardContext = React.createContext({
@@ -20,8 +20,9 @@ export const BoardConsumer = BoardContext.Consumer
 class BoardProviderBase extends React.Component {
   state = {
     addingList: false,
+    isDragDisabled: false,
     addingCardToListId: null,
-    isDragDisabled: false
+    viewingCardId: null
   }
 
   addList = (values) => {
@@ -127,13 +128,13 @@ class BoardProviderBase extends React.Component {
 
         const list = store.readFragment({
           id: `List:${values.list_id}`,
-          fragment: BoardDetailPageData.fragments.list,
+          fragment: BoardDetailPageFragments.list,
           fragmentName: 'BoardDetailPageList'
         })
 
         store.writeFragment({
           id: `List:${values.list_id}`,
-          fragment: BoardDetailPageData.fragments.list,
+          fragment: BoardDetailPageFragments.list,
           data: { ...list, cards: [card, ...list.cards] },
           fragmentName: 'BoardDetailPageList'
         });
@@ -195,6 +196,9 @@ class BoardProviderBase extends React.Component {
         setIsDragDisabled: (isDragDisabled) => {
           this.setState({ isDragDisabled })
         },
+        setViewingCardId: (viewingCardId) => {
+          this.setState({ viewingCardId })
+        },
         ...this.state
       }}>
         {children}
@@ -206,7 +210,7 @@ class BoardProviderBase extends React.Component {
 export const BoardProvider = compose(
   graphql(BOARD_DETAIL_QUERY, {
     name: 'boardDetailQuery',
-    options: (props) => ({ variables: { id: 1 }})
+    options: (props) => ({ variables: { id: props.id }})
   }),
   graphql(ADD_LIST_MUTATION, { name: 'addListMutation' }),
   graphql(MOVE_LIST_MUTATION, { name: 'moveListMutation' }),

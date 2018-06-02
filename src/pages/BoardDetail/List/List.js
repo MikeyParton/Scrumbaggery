@@ -31,7 +31,8 @@ class List extends React.Component {
           deleteList,
           setAddingCardToListId,
           setIsDragDisabled,
-          isDragDisabled
+          isDragDisabled,
+          setViewingCardId
         }) => (
           <ListOuterContainer
             innerRef={provided.innerRef}
@@ -80,6 +81,7 @@ class List extends React.Component {
                       >
                         {(provided, snapshot) => (
                           <Card
+                            onClick={() => setViewingCardId(item.id)}
                             item={item}
                             provided={provided}
                             snapshot={snapshot}

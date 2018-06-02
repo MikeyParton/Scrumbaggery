@@ -7,21 +7,33 @@ const cardFragment = gql`
   }
 `
 
-export const BoardDetailPageData = {
-  fragments: {
-    card: cardFragment,
-    list: gql`
-      fragment BoardDetailPageList on List {
-        id
-        name
-        cards {
-          ...BoardDetailPageCard
-        }
+export const BoardDetailPageFragments = {
+  card: cardFragment,
+  list: gql`
+    fragment BoardDetailPageList on List {
+      id
+      name
+      cards {
+        ...BoardDetailPageCard
       }
-      ${cardFragment}
-    `
-  }
+    }
+    ${cardFragment}
+  `
 }
+
+export const CARD_DETAIL_QUERY = gql`
+  query CardDetail($id: ID!) {
+    card(id: $id) {
+      id
+      name
+      description
+      list {
+        ...BoardDetailPageList
+      }
+    }
+  }
+  ${BoardDetailPageFragments.list}
+`
 
 export const BOARD_DETAIL_QUERY = gql`
   query BoardDetail($id: ID!) {
@@ -33,7 +45,7 @@ export const BOARD_DETAIL_QUERY = gql`
       }
     }
   }
-  ${BoardDetailPageData.fragments.list}
+  ${BoardDetailPageFragments.list}
 `
 
 // CARD MUTATIONS
@@ -63,7 +75,7 @@ export const ADD_LIST_MUTATION = gql`
       ...BoardDetailPageList
     }
   }
-  ${BoardDetailPageData.fragments.list}
+  ${BoardDetailPageFragments.list}
 `
 
 export const MOVE_LIST_MUTATION = gql`
