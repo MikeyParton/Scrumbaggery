@@ -1,36 +1,38 @@
 import React from 'react'
 import Modal from 'components/Modal/Modal'
 import { BoardConsumer } from '../BoardContext'
-import { compose, graphql } from 'react-apollo'
+import { Query } from 'react-apollo'
 import { CARD_DETAIL_QUERY } from 'data'
 
 const CardDetail = (props) => {
-  console.log(props)
   return (
     <BoardConsumer>
-      {({
-        boardDetailQuery,
-        viewingCardId,
-        setViewingCardId
-      }) => (
+      {({ viewingCardId, setViewingCardId, cardModalOpen }) => (
         <Modal
-          open={viewingCardId}
-          onClose={() => setViewingCardId(null)}>
-          <Modal.Header>
-            Card
-          </Modal.Header>
-          <Modal.Content>
-            Content
-          </Modal.Content>
+          open={cardModalOpen}
+          onClose={setViewingCardId}>
+          <Query
+            query={CARD_DETAIL_QUERY}
+            variables={{ id: viewingCardId }}>
+            {({ data, loading, error }) => {
+              if (loading) return <div>...loading</div>
+              if (error) return <div>...error</div>
+
+              return (
+                <div>
+                <Modal.Header>
+                  {data.card.name}
+                </Modal.Header>
+                <Modal.Content>
+                </Modal.Content>
+                </div>
+              )
+            }}
+          </Query>
         </Modal>
       )}
     </BoardConsumer>
   )
 }
 
-export default compose(
-  graphql(CARD_DETAIL_QUERY, {
-    name: 'cardDetailQuery',
-    options: (props) => ({ variables: { id: 339 }})
-  })
-)(CardDetail)
+export default CardDetail

@@ -20,6 +20,7 @@ export const BoardConsumer = BoardContext.Consumer
 class BoardProviderBase extends React.Component {
   state = {
     addingList: false,
+    cardModalOpen: false,
     isDragDisabled: false,
     addingCardToListId: null,
     viewingCardId: null
@@ -176,6 +177,15 @@ class BoardProviderBase extends React.Component {
     })
   }
 
+  setViewingCardId = (id = null) => {
+    const cardModalOpen = id != null
+    const viewingCardId = id || this.state.viewingCardId
+    this.setState({
+      cardModalOpen,
+      viewingCardId
+    })
+  }
+
   render() {
     const { boardDetailQuery, children } = this.props
 
@@ -187,6 +197,7 @@ class BoardProviderBase extends React.Component {
         deleteList: this.deleteList,
         addCard: this.addCard,
         moveCard: this.moveCard,
+        setViewingCardId: this.setViewingCardId,
         setAddingList: (addingList) => {
           this.setState({ addingList })
         },
@@ -195,9 +206,6 @@ class BoardProviderBase extends React.Component {
         },
         setIsDragDisabled: (isDragDisabled) => {
           this.setState({ isDragDisabled })
-        },
-        setViewingCardId: (viewingCardId) => {
-          this.setState({ viewingCardId })
         },
         ...this.state
       }}>
