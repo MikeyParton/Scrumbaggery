@@ -2,6 +2,10 @@ import styled, { css } from 'styled-components'
 import { fill, darkLight } from '../../styles/colorHelpers'
 import { readableColor } from 'polished'
 
+export const ButtonGroup = styled.div`
+  display: flex;
+`
+
 export const ButtonBase = styled.button`
   font-size: inherit;
   font-size: inherit;

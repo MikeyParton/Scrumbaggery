@@ -9,7 +9,6 @@ import globalStyles from '../src/styles/globalStyles'
 import Styles from '../src/styles/styles.story'
 
 import Button from '../src/components/Button/Button.story'
-import List from '../src/components/List/List.story'
 import Sidebar from '../src/components/Sidebar/Sidebar.story'
 import Tabs from '../src/components/Tabs/Tabs.story'
 import Modal from 'components/Modal/Modal.story'
@@ -33,7 +32,6 @@ Styles()
 Button()
 Sidebar()
 Tabs()
-List()
 Modal()
 Input()
 DropDown()

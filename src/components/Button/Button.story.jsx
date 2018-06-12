@@ -1,6 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import Button from './Button'
+import ButtonGroup from './ButtonGroup'
 import styled from 'styled-components'
 import {
   boolean,
@@ -24,7 +25,16 @@ const ButtonStory = () => (
         </Button>
       )
     })
-
+    .add('Group', () => {
+      return (
+        <ButtonGroup
+          straightRightEdge={boolean('straightRightEdge', false)}
+          straightLeftEdge={boolean('straightLeftEdge', false)}>
+          <Button fill="primary">A</Button>
+          <Button fill="primary">B</Button>
+        </ButtonGroup>
+      )
+    })
 )
 
 export default ButtonStory
