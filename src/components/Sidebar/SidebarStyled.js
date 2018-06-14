@@ -13,7 +13,7 @@ export const OuterContainer = styled.div`
   top: 0;
   bottom: 0;
   z-index: 5;
-  background-color: ${props => props.theme.colors['greyLightest']};
+  background-color: ${props => props.theme.colors.snow};
   box-shadow: rgba(0, 0, 0, 0.15) 2px 0px 20px;
 
   ${mediaQueries.phone`

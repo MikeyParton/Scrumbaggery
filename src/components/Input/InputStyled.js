@@ -11,7 +11,7 @@ export const InputBase = styled.input`
   &:focus {
     outline: 0;
     ${props => {
-      const color = props.theme.colors['primary-30']
+      const color = props.theme.colors['primaryLightXXX']
       return css`
         box-shadow: 0 4px 8px 0 ${rgba(color, 0.2)}, 0 6px 20px 0 ${rgba(color, 0.2)};
         border: 1px solid ${color};

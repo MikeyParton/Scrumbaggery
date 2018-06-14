@@ -7,7 +7,7 @@ export const ListOuterContainer = styled.div`
   max-height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: ${props => props.theme.colors['default-30']};
+  background-color: ${props => props.theme.colors['defaultLightXXX']};
   padding: 16px;
   box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 2px;
 `
@@ -46,7 +46,7 @@ export const ListDropZone = styled.div`
   }
   ::-webkit-scrollbar-thumb {
     border-radius: 5px;
-    background-color: ${props => props.theme.colors['secondary-30']};
+    background-color: ${props => props.theme.colors['secondaryLightXXX']};
     -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
   }
 `

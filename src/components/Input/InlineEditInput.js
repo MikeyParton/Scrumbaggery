@@ -23,15 +23,13 @@ const InnerInput = styled.input`
 
   &:focus {
     ${props => {
-      const color = props.theme.colors['primary-30']
+      const color = props.theme.colors.primaryLightXXX
       return css`
         box-shadow: 0 4px 8px 0 ${rgba(color, 0.2)}, 0 6px 20px 0 ${rgba(color, 0.2)};
         border: 1px solid ${color};
       `
     }}
   }
-
-
 `
 
 const InnerValue = styled.div`
@@ -39,7 +37,7 @@ const InnerValue = styled.div`
   font-size: 14px;
   flex-grow: 1;
   padding: 0 10px;
-  background-color: ${props => props.theme.colors['grey-10']};
+  background-color: ${props => props.theme.colors.defaultLightX};
 `
 
 class InlineEditInput extends React.Component {
@@ -49,13 +47,19 @@ class InlineEditInput extends React.Component {
     newValue: ''
   }
 
-  startEditing = () => {
-    this.setState({ editing: true })
+  onEdit = () => {
     this.input.focus()
   }
 
   stopEditing = () => {
     this.setState({ editing: false })
+  }
+
+  onFocus = () => {
+    this.setState({
+      editing: true,
+      newValue: this.state.originalValue
+    })
   }
 
   onChange = (event) => {
@@ -66,31 +70,35 @@ class InlineEditInput extends React.Component {
     this.stopEditing()
   }
 
-  onSave = () => {
+  onSubmit = (event) => {
+    event.preventDefault()
     this.setState({ originalValue: this.state.newValue })
     this.stopEditing()
+    this.input.blur()
   }
 
   render() {
     const { editing, newValue, originalValue } = this.state
     return (
-      <InputContainer focus={editing}>
-        <InnerInput
-          innerRef={(node) => { this.input = node }}
-          onFocus={this.startEditing}
-          onChange={this.onChange}
-          value={editing ? newValue : originalValue}
-        />
-        <ButtonGroup straightLeftEdge>
-          { editing
-            ? <React.Fragment>
-                <Button onClick={this.onCancel}>Cancel</Button>
-                <Button onClick={this.onSave}>Save</Button>
-              </React.Fragment>
-            : <Button onClick={this.startEditing}>Edit</Button>
-          }
-        </ButtonGroup>
-      </InputContainer>
+      <form onSubmit={this.onSubmit}>
+        <InputContainer focus={editing}>
+          <InnerInput
+            innerRef={(node) => { this.input = node }}
+            onChange={this.onChange}
+            onFocus={this.onFocus}
+            value={editing ? newValue : originalValue}
+          />
+          <ButtonGroup straightLeftEdge>
+            { editing
+              ? <React.Fragment>
+                  <Button type="button" onClick={this.onCancel}>Cancel</Button>
+                  <Button type="submit">Save</Button>
+                </React.Fragment>
+              : <Button type="button" onClick={this.onEdit}>Edit</Button>
+            }
+          </ButtonGroup>
+        </InputContainer>
+      </form>
     )
   }
 }

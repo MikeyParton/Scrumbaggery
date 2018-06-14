@@ -10,6 +10,11 @@ const ButtonGroup = styled.div`
       border-bottom-right-radius: 0;
       border-top-right-radius: 0;
 
+      &:last-child {
+        border-bottom-right-radius: 4px;
+        border-top-right-radius: 4px;
+      }
+
       ${props => props.straightLeftEdge && css`
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
@@ -19,6 +24,11 @@ const ButtonGroup = styled.div`
     &:last-child {
       border-bottom-left-radius: 0;
       border-top-left-radius: 0;
+
+      &:first-child {
+        border-bottom-right-radius: 4px;
+        border-top-right-radius: 4px;
+      }
 
       ${props => props.straightRightEdge && css`
         border-bottom-right-radius: 0;

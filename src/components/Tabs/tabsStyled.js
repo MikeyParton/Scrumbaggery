@@ -24,7 +24,7 @@ export const TabContainer = styled.div`
   width: ${props => props.vertical ? '100%' : '90px'};
   cursor: pointer;
   padding: 10px;
-  ${props => props.active && `background-color: ${props.theme.colors['greyLightest+10']};`}
+  ${props => props.active && `background-color: ${props.theme.colors.snowDarkX};`}
   transition: background-color 0.7s;
 `
 

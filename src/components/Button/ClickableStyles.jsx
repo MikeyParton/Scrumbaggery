@@ -19,11 +19,14 @@ class ClickableStyles extends React.Component {
     })
   }
 
-  onMouseDown = () => {
-    this.setState({
-      clicked: true,
-      mouseDown: true
-    })
+  onMouseDown = (e) => {
+    // Only react to left button
+    if (e.button === 0) {
+      this.setState({
+        clicked: true,
+        mouseDown: true
+      })
+    }
   }
 
   onMouseUp = () => {
@@ -33,6 +36,7 @@ class ClickableStyles extends React.Component {
   onRest = () => {
     if (this.state.clicked) {
       this.setState({ clicked: false })
+      this.onClick()
     }
   }
 
@@ -41,30 +45,35 @@ class ClickableStyles extends React.Component {
     onMouseUp,
     onMouseEnter,
     onMouseLeave,
+    onClick,
     ...props
-  } = {}) => ({
-    onMouseDown: (...args) => {
-      if (props.disabled) return
-      onMouseDown && onMouseDown()
-      this.onMouseDown()
-    },
-    onMouseUp: (...args) => {
-      if (props.disabled) return
-      onMouseUp && onMouseUp()
-      this.onMouseUp()
-    },
-    onMouseEnter: (...args) => {
-      if (props.disabled) return
-      onMouseEnter && onMouseEnter()
-      this.onMouseEnter()
-    },
-    onMouseLeave: (...args) => {
-      if (props.disabled) return
-      onMouseLeave && onMouseLeave()
-      this.onMouseLeave()
-    },
-    ...props
-  })
+  } = {}) => {
+    this.onClick = onClick
+
+    return ({
+      onMouseDown: (...args) => {
+        if (props.disabled) return
+        onMouseDown && onMouseDown()
+        this.onMouseDown(...args)
+      },
+      onMouseUp: (...args) => {
+        if (props.disabled) return
+        onMouseUp && onMouseUp()
+        this.onMouseUp()
+      },
+      onMouseEnter: (...args) => {
+        if (props.disabled) return
+        onMouseEnter && onMouseEnter()
+        this.onMouseEnter()
+      },
+      onMouseLeave: (...args) => {
+        if (props.disabled) return
+        onMouseLeave && onMouseLeave()
+        this.onMouseLeave()
+      },
+      ...props
+    })
+  }
 
   render() {
     const { clicked, mouseDown, hover } = this.state
