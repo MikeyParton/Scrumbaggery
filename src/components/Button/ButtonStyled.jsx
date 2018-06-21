@@ -17,7 +17,7 @@ export const ButtonBase = styled.button`
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 2px;
   border-radius: 5px;
   height: 35px;
-  min-width: 35px;
+  min-width: 38px;
   padding: 0 10px 0 10px;
 
   &:focus {

@@ -36,7 +36,7 @@ class ClickableStyles extends React.Component {
   onRest = () => {
     if (this.state.clicked) {
       this.setState({ clicked: false })
-      this.onClick()
+      this.onClick && this.onClick()
     }
   }
 

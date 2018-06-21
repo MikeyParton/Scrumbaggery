@@ -4,6 +4,10 @@ import styled, { css } from 'styled-components'
 import { rgba } from 'polished'
 import Button from 'components/Button/Button'
 import ButtonGroup from 'components/Button/ButtonGroup'
+import CrossIcon from 'react-icons/lib/md/clear'
+import TickIcon from 'react-icons/lib/md/check'
+import EditIcon from 'react-icons/lib/md/edit'
+import { Spring } from 'react-spring'
 
 const InputContainer = styled.div`
   display: flex;
@@ -12,6 +16,7 @@ const InputContainer = styled.div`
 `
 
 const InnerInput = styled.input`
+  z-index: 3;
   flex-grow: 1;
   font-size: 14px;
   height: 35px;
@@ -79,6 +84,10 @@ class InlineEditInput extends React.Component {
 
   render() {
     const { editing, newValue, originalValue } = this.state
+    const animatedStyles = editing
+      ? { width: 76, editingOpacity: 1, editOpacity: 0 }
+      : { width: 38, editingOpacity: 0, editOpacity: 1 }
+
     return (
       <form onSubmit={this.onSubmit}>
         <InputContainer focus={editing}>
@@ -88,15 +97,19 @@ class InlineEditInput extends React.Component {
             onFocus={this.onFocus}
             value={editing ? newValue : originalValue}
           />
-          <ButtonGroup straightLeftEdge>
-            { editing
-              ? <React.Fragment>
-                  <Button type="button" onClick={this.onCancel}>Cancel</Button>
-                  <Button type="submit">Save</Button>
-                </React.Fragment>
-              : <Button type="button" onClick={this.onEdit}>Edit</Button>
-            }
-          </ButtonGroup>
+            <Spring to={animatedStyles}>
+              {({ width, editingOpacity, editOpacity }) => (
+                <div style={{ position: 'relative', width: width, height: 35 }}>
+                  <ButtonGroup style={{ opacity: editingOpacity, zIndex: 1 + editingOpacity, position: 'absolute', right: 0, top: 0 }} straightLeftEdge>
+                    <Button fill="danger" type="button" onClick={this.onCancel}><CrossIcon /></Button>
+                    <Button fill="primary" type="submit"><TickIcon /></Button>
+                  </ButtonGroup>
+                  <ButtonGroup style={{ opacity: editOpacity, zIndex: 1 + editOpacity, position: 'absolute', right: 0, top: 0 }} straightLeftEdge>
+                    <Button fill="secondary" type="button" onClick={this.onEdit}><EditIcon /></Button>
+                  </ButtonGroup>
+                </div>
+              )}
+            </Spring>
         </InputContainer>
       </form>
     )
