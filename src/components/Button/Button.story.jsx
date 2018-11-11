@@ -13,23 +13,15 @@ import {
 const ButtonStory = () => (
   storiesOf('Buttons', module)
     .addDecorator(withKnobs)
-    .add('Circle', () => {
-      return (
-        <Button
-          dark={boolean('dark', true)}
-          circle={boolean('cirle', false)}
-          block={boolean('block', false)}
-          fill={select('fill', ['primary', 'secondary', ''], 'primary')}
-        >
-          B
-        </Button>
-      )
-    })
+    .add('Normal', () => <Button fill="primary">Normal Button</Button>)
+    .add('Circle', () => <Button circle fill="primary">B</Button>)
+    .add('Block', () => <Button block fill="primary">B</Button>)
+    .add('Transparent', () => <Button fill="transparent">B</Button>)
     .add('Group', () => {
       return (
         <ButtonGroup
           straightRightEdge={boolean('straightRightEdge', false)}
-          straightLeftEdge={boolean('straightLeftEdge', false)}>
+          straightLefEdge={boolean('straightLefEdge', false)}>
           <Button fill="primary">A</Button>
           <Button fill="primary">B</Button>
         </ButtonGroup>

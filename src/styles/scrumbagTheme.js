@@ -12,6 +12,7 @@ const makeShades = (name, code) => ({
 
 const colors = {
   black: '#333333',
+  transparent: 'transparent',
   ...makeShades('snow', '#F9F9F9'),       // snow
   ...makeShades('primary', '#2F68ED'),    // ultraMarineBlue
   ...makeShades('secondary', '#6C698D'),  // darkBlueGrey

@@ -3,12 +3,12 @@ import { readableColor } from 'polished'
 
 export const fill = css`
   ${(props) => {
-    const background = (props.fill && props.theme.colors[props.fill]) ||
-      props.theme.colors.default
+    const background = (props.fill && props.theme.colors[props.fill])
+      || props.theme.colors.default
 
     return css`
-      background-color: ${background}
-      color: ${readableColor(background)};
+      background-color: ${background};
+      ${background !== 'transparent' && `color: ${readableColor(background)};`}
     `
   }}
 `

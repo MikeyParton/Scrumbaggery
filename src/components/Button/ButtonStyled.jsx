@@ -9,12 +9,12 @@ export const ButtonGroup = styled.div`
 export const ButtonBase = styled.button`
   font-size: inherit;
   font-size: inherit;
+  border: none;
   ${fill}
   ${props => props.disabled && `background-color: grey;`}
   user-select: none;
   display: inline-block;
   cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 2px;
   border-radius: 5px;
   height: 35px;
   min-width: 38px;
@@ -33,6 +33,11 @@ export const ButtonBase = styled.button`
 
   // Block Props
   ${props => props.block && css`width: 100%;`}
+
+  // Transparent Props
+  ${props => props.fill !== 'transparent' && css`
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 2px;
+  `}
 `
 
 export const ButtonInnerContainer = styled.div`
